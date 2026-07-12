@@ -41,8 +41,8 @@ DATASETS = {
     "path_potential":  "W-C0034-005",   # 颱風路徑潛勢預報
     "rainfall":        "O-A0002-001",   # 自動雨量站
     "temp_obs":        "O-A0001-001",   # 自動氣象站（含氣溫，供低溫/寒流事件）
-    "township_fcst":   "F-D0047-025",   # 雲林縣未來 3 天天氣預報（逐 3 小時，較細）
     "county_fcst":     "F-C0032-001",   # 全國各縣市今明 36 小時天氣預報（全國、輕量、穩定）
+    "hourly_3h_all":   "F-D0047-093",   # 全國各鄉鎮市區未來 3 天天氣預報（逐 3 小時，供「未來 24 小時」逐時）
 }
 
 # 天氣事件累積檔（K線標記用）；僅逐日「向前累積」真實觀測，不臆造歷史。
@@ -388,75 +388,68 @@ def _first_local_station(records, county=COUNTY):
     return found[0]
 
 
-def parse_township_forecast(recs, now, town_pref=("二崙", "西螺", "崙背", "虎尾")):
-    """從 F-D0047-025（雲林逐 3 小時預報）取一代表鄉鎮的逐時段：降雨機率/溫度/天氣現象。
-    回傳 {'town':名, 'slots':[{'t':iso,'pop':int|None,'temp':float|None,'wx':str}]}（未來約 2 天）。
-    ⚠ 欄位路徑以真實 F-D0047 回應校準（見 cwa_debug）。"""
+def parse_hourly_3h(recs, now):
+    """從 F-D0047-093（全國各鄉鎮市區未來 3 天，逐 3 小時）整理每縣市一代表鄉鎮的逐 3 小時序列，
+    供前端「未來 24 小時」逐時顯示（比 F-C0032-001 的 12 小時分段細）。
+    回傳 {'台中市':[{'t':iso,'pop':int|None,'temp':int|None,'wx':str}], ...}（每縣市未來約 2 天）。
+    結構：records.Locations[]（每筆一縣市，LocationsName）→ Location[]（鄉鎮）→ WeatherElement[]。
+    欄位大小寫/中英文皆容錯；抓不到或結構不符回 {}（前端自動退回 12 小時分段）。"""
     if not recs:
-        return {"town": None, "slots": []}
-    locs = [None]
+        return {}
+    locs_list = recs.get("Locations") or recs.get("locations")
+    if isinstance(locs_list, dict):
+        locs_list = [locs_list]
+    if not isinstance(locs_list, list):
+        return {}
 
-    def find_locs(o):
-        if locs[0] is not None:
-            return
-        if isinstance(o, dict):
-            for k, v in o.items():
-                if k in ("Location", "location") and isinstance(v, list) and v and isinstance(v[0], dict) \
-                        and any(("LocationName" in x or "locationName" in x) for x in v):
-                    locs[0] = v
-                    return
-                find_locs(v)
-        elif isinstance(o, list):
-            for v in o:
-                find_locs(v)
-    find_locs(recs)
-    L = locs[0]
-    if not L:
-        return {"town": None, "slots": []}
-
-    def nm(x):
-        return str(x.get("LocationName") or x.get("locationName") or "")
-    pick = None
-    for pref in town_pref:
-        pick = next((x for x in L if pref in nm(x)), None)
-        if pick:
-            break
-    pick = pick or L[0]
-    elems = pick.get("WeatherElement") or pick.get("weatherElement") or []
-    series = {}
-    for e in elems:
-        en = str(e.get("ElementName") or e.get("elementName") or "")
-        for tm in (e.get("Time") or e.get("time") or []):
-            t = str(tm.get("StartTime") or tm.get("DataTime") or tm.get("startTime") or tm.get("dataTime") or "")
-            if not t:
-                continue
-            ev = tm.get("ElementValue") or tm.get("elementValue") or []
-            if isinstance(ev, dict):
-                ev = [ev]
-            v = ev[0] if ev else {}
-            rec = series.setdefault(t, {})
-            if "降雨機率" in en:
-                raw = v.get("ProbabilityOfPrecipitation", v.get("降雨機率"))
-                try:
-                    rec["pop"] = int(float(raw))
-                except (TypeError, ValueError):
-                    pass
-            elif "溫度" in en and "露點" not in en:
-                raw = v.get("Temperature", v.get("溫度"))
-                try:
-                    rec["temp"] = float(raw)
-                except (TypeError, ValueError):
-                    pass
-            elif "天氣現象" in en:
-                rec["wx"] = str(v.get("Weather") or v.get("天氣現象") or "")
-    out = []
-    for t in sorted(series.keys()):
-        dt = _parse_cwa_time(t)
-        if dt and dt < now - timedelta(hours=3):
+    out = {}
+    for county_blk in locs_list:
+        if not isinstance(county_blk, dict):
             continue
-        r = series[t]
-        out.append({"t": t, "pop": r.get("pop"), "temp": r.get("temp"), "wx": r.get("wx", "")})
-    return {"town": nm(pick), "slots": out[:16]}
+        cname = str(county_blk.get("LocationsName") or county_blk.get("locationsName") or "").strip()
+        cname = cname.replace("臺", "台")
+        towns = county_blk.get("Location") or county_blk.get("location") or []
+        if not isinstance(towns, list) or not towns:
+            continue
+        pick = towns[0]   # 代表鄉鎮（取第一個；縣市級「未來 24 小時」概覽足夠）
+        elems = pick.get("WeatherElement") or pick.get("weatherElement") or []
+        series = {}
+        for e in elems:
+            en = str(e.get("ElementName") or e.get("elementName") or "")
+            for tm in (e.get("Time") or e.get("time") or []):
+                t = str(tm.get("DataTime") or tm.get("StartTime")
+                        or tm.get("dataTime") or tm.get("startTime") or "")
+                if not t:
+                    continue
+                ev = tm.get("ElementValue") or tm.get("elementValue") or []
+                if isinstance(ev, dict):
+                    ev = [ev]
+                v = ev[0] if ev else {}
+                rec = series.setdefault(t, {})
+                if "降雨機率" in en:
+                    raw = v.get("ProbabilityOfPrecipitation", v.get("降雨機率"))
+                    try:
+                        rec["pop"] = int(float(raw))
+                    except (TypeError, ValueError):
+                        pass
+                elif "溫度" in en and "露點" not in en and "體感" not in en:
+                    raw = v.get("Temperature", v.get("溫度"))
+                    try:
+                        rec["temp"] = int(round(float(raw)))
+                    except (TypeError, ValueError):
+                        pass
+                elif "天氣現象" in en:
+                    rec["wx"] = str(v.get("Weather") or v.get("天氣現象") or "")
+        rows = []
+        for t in sorted(series.keys()):
+            dt = _parse_cwa_time(t)
+            if dt and dt < now - timedelta(hours=1):   # 只留現在起的未來時段
+                continue
+            r = series[t]
+            rows.append({"t": t, "pop": r.get("pop"), "temp": r.get("temp"), "wx": r.get("wx", "")})
+        if rows and cname:
+            out[cname] = rows[:16]   # 約 2 天（16×3hr）
+    return out
 
 
 def _period_label(start_dt, now):
@@ -556,13 +549,16 @@ def main():
     rain_recs = cwa_get(DATASETS["rainfall"], CountyName=COUNTY)
     temp_recs = cwa_get(DATASETS["temp_obs"], CountyName=COUNTY)
     county_recs = cwa_get(DATASETS["county_fcst"])           # 全國各縣市今明 36 小時（全國天氣預報）
+    hourly_recs = cwa_get(DATASETS["hourly_3h_all"])         # 全國各鄉鎮未來 3 天逐 3 小時（供「未來 24 小時」逐時）
 
-    # 未來天氣預報（全國各縣市；供商人「擺攤指數/何時下雨」、農夫「農事時段建議」）
+    # 未來天氣預報：counties = 12 小時分段（擺攤指數/何時下雨用）；hourly = 逐 3 小時（未來 24 小時逐時用）
     counties = parse_nationwide_36h(county_recs, now)
+    hourly = parse_hourly_3h(hourly_recs, now)
     try:
         with open("weather_forecast.json", "w", encoding="utf-8") as f:
-            json.dump({"updated": now.strftime("%Y-%m-%d %H:%M"), "source": "CWA F-C0032-001",
-                       "counties": counties}, f, ensure_ascii=False, indent=2)
+            json.dump({"updated": now.strftime("%Y-%m-%d %H:%M"),
+                       "source": "CWA F-C0032-001 + F-D0047-093",
+                       "counties": counties, "hourly": hourly}, f, ensure_ascii=False, indent=2)
     except Exception as e:
         print(f"[fetch_cwa] 預報寫出失敗：{e}", file=sys.stderr)
 
@@ -577,7 +573,10 @@ def main():
                        "O-A0002-001_rain_yunlin_sample": _first_local_station(rain_recs),
                        "O-A0001-001_temp_yunlin_sample": _first_local_station(temp_recs),
                        "F-C0032-001_fcst": _struct(county_recs),
-                       "F-C0032-001_counties_parsed": sorted(counties.keys())},
+                       "F-C0032-001_counties_parsed": sorted(counties.keys()),
+                       "F-D0047-093_hourly": _struct(hourly_recs),
+                       "F-D0047-093_counties_parsed": sorted(hourly.keys()),
+                       "F-D0047-093_taichung_sample": hourly.get("台中市", [])[:4]},
                       f, ensure_ascii=False, indent=2)
     except Exception as e:
         print(f"[fetch_cwa] debug dump 失敗：{e}", file=sys.stderr)

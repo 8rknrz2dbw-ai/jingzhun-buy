@@ -214,6 +214,7 @@
   /* 24 小時天氣（逐時段） */
   .wx24{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:0.9rem 1rem;margin-bottom:0.8rem;}
   .wx24-h{font-size:1.05rem;font-weight:900;margin:0 0 0.5rem;}
+  .wx24-h small{font-size:0.7rem;font-weight:800;color:var(--bg);background:var(--leaf);padding:0.1rem 0.5rem;border-radius:999px;margin-left:0.5rem;vertical-align:middle;}
   .wx24-row{border-top:1px solid var(--line);padding:0.6rem 0;display:flex;flex-direction:column;gap:0.25rem;}
   .wx24-row:first-of-type{border-top:0;padding-top:0.1rem;}
   .wx24-top{display:flex;align-items:baseline;justify-content:space-between;gap:0.5rem;}
@@ -554,7 +555,7 @@
 
 <script>
 /* ══════ 基礎 ══════ */
-const VERSION="v1.3.0";
+const VERSION="v1.4.0";
 /* 精準進貨（商人版）：批發行情＋跨市場比價找便宜進貨。此 repo 已為商人版專用，
    農夫版（精準務農）田區搶收/採收預判相關程式與資料已移除。 */
 const APP="merchant";
@@ -1150,6 +1151,14 @@ function closeTyphoon(){document.getElementById("typhoonModal").classList.remove
 /* ══════ 天氣預報建議：擺攤指數／何時下雨 ══════ */
 function fcPeriods(){const C=(FORECAST&&FORECAST.counties)||null;if(!C)return [];
   const p=C[activeCounty()];return (p&&Array.isArray(p.periods))?p.periods:[];}
+/* 逐 3 小時序列（F-D0047-093）；沒有就回空、由呼叫端退回 12 小時分段 */
+function fcHourly(){const H=(FORECAST&&FORECAST.hourly)||null;if(!H)return [];
+  const a=H[activeCounty()];return Array.isArray(a)?a:[];}
+/* 逐時標籤：ISO → 「今 15時／明 03時」 */
+function hrLabel(iso){const m=String(iso||"").match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2})/);
+  if(!m)return "";const day=`${m[1]}-${m[2]}-${m[3]}`,hh=m[4];
+  const today=todayISO(),tmr=addDaysISO(today,1);
+  const d=day===today?"今":day===tmr?"明":(day>tmr?"後":"");return `${d} ${hh}時`;}
 function wxEmoji(wx){wx=wx||"";
   if(/雷/.test(wx))return "⛈";
   if(/雨/.test(wx))return "🌧";
@@ -1392,8 +1401,18 @@ function fcLabel(p){
   return day?day+part:(p.label||"");
 }
 function wx24HTML(){
-  const ps=fcPeriods();if(!ps.length)return "";
-  return `<div class="wx24"><h3 class="wx24-h">🕐 未來 24 小時天氣</h3>`+
+  const hr=fcHourly();
+  if(hr.length){   // 有真逐 3 小時（F-D0047-093）：未來約 24 小時＝8 段
+    const slots=hr.slice(0,8);
+    return `<div class="wx24"><h3 class="wx24-h">🕐 未來 24 小時天氣<small>逐 3 小時</small></h3>`+
+      slots.map(p=>{const wet=p.pop!=null&&p.pop>=50;
+        return `<div class="wx24-row${wet?' wet':''}">
+          <div class="wx24-top"><span class="wx24-lab">${hrLabel(p.t)}</span><span class="wx24-tp">${p.temp!=null?p.temp+"°":""}</span></div>
+          <div class="wx24-bot"><span class="wx24-wx"><span class="e">${wxEmoji(p.wx)}</span>${p.wx||""}</span><span class="wx24-p">${p.pop!=null?"☔ "+p.pop+"%":"–"}</span></div>
+        </div>`;}).join("")+`</div>`;
+  }
+  const ps=fcPeriods();if(!ps.length)return "";   // 無逐時資料→退回 12 小時分段
+  return `<div class="wx24"><h3 class="wx24-h">🕐 未來天氣</h3>`+
     ps.map(p=>{const wet=p.pop!=null&&p.pop>=50;const t=`${fcHour(p.start)}–${fcHour(p.end)}時`;
       return `<div class="wx24-row${wet?' wet':''}">
         <div class="wx24-top"><span class="wx24-lab">${fcLabel(p)}<small>${t}</small></span><span class="wx24-tp">${fcTempText(p)||""}</span></div>
