@@ -169,8 +169,8 @@
   .mc-left{flex:1;min-width:0;text-align:left;background:transparent;border:0;color:inherit;
     padding:0.85rem 0.7rem 0.85rem 1rem;display:flex;flex-direction:column;justify-content:center;gap:0.4rem;}
   .mc-left:active{background:var(--panel2);}
-  .mc-right{flex:0 0 auto;min-width:6.6rem;background:transparent;border:0;border-left:1px solid var(--line);color:inherit;
-    padding:0.7rem 1rem;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:0.1rem;}
+  .mc-right{flex:0 0 auto;min-width:7rem;background:transparent;border:0;border-left:1px solid var(--line);color:inherit;
+    padding:0.7rem 0.9rem;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:0.15rem;}
   .mc-right:active{background:var(--panel2);}
   .mc-right.nolink{pointer-events:none;}
   .mc-nm{font-size:1.45rem;font-weight:900;letter-spacing:1px;line-height:1.15;}
@@ -180,10 +180,11 @@
   .mc-info{font-size:0.8rem;font-weight:700;color:var(--muted);white-space:nowrap;}
   .mc-px{display:flex;align-items:baseline;gap:0.12rem;white-space:nowrap;}
   .mc-v{font-size:1.7rem;font-weight:900;} .mc-u{font-size:0.62rem;color:var(--muted);}
+  .mc-meta{display:flex;align-items:center;gap:0.4rem;}
   .mc-chg{font-size:0.92rem;font-weight:800;white-space:nowrap;}
   .mc-chg.up{color:var(--r);} .mc-chg.dn{color:var(--g);} .mc-chg.mid{color:var(--muted);}
-  .mc-none{color:var(--muted);font-size:0.9rem;text-align:right;line-height:1.2;}
-  .mc-khint{font-size:0.6rem;color:var(--leaf);font-weight:800;white-space:nowrap;}
+  .mc-comb{font-size:0.6rem;font-weight:800;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0.02rem 0.35rem;white-space:nowrap;}
+  .mc-none{color:var(--muted);font-size:0.9rem;line-height:1.2;}
   .mcard .tag{white-space:nowrap;}
   /* 品種下拉：只列各品種；左＝說明、右＝K線 */
   .vdrop{margin:-0.3rem 0 0.7rem;padding:0.35rem;background:var(--panel2);border:1px solid var(--line);border-radius:0 0 14px 14px;
@@ -202,8 +203,18 @@
   /* 天氣分頁 */
   .wx-h{font-size:1.2rem;font-weight:900;margin:0.3rem 0 0.9rem;}
   .wx-foot{font-size:0.72rem;color:var(--muted);margin-top:0.9rem;line-height:1.6;}
-  .tab{position:relative;}
-  .tab.hasalert::after{content:"";position:absolute;top:0.45rem;right:0.7rem;width:0.5rem;height:0.5rem;border-radius:50%;background:var(--r);box-shadow:0 0 0 2px var(--panel);}
+  /* 24 小時天氣（逐時段） */
+  .wx24{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:0.9rem 1rem;margin-bottom:0.8rem;}
+  .wx24-h{font-size:1.05rem;font-weight:900;margin:0 0 0.5rem;}
+  .wx24-row{border-top:1px solid var(--line);padding:0.6rem 0;display:flex;flex-direction:column;gap:0.25rem;}
+  .wx24-row:first-of-type{border-top:0;padding-top:0.1rem;}
+  .wx24-top{display:flex;align-items:baseline;justify-content:space-between;gap:0.5rem;}
+  .wx24-lab{font-size:1rem;font-weight:800;} .wx24-lab small{color:var(--muted);font-weight:400;font-size:0.8rem;margin-left:0.35rem;}
+  .wx24-tp{font-size:0.95rem;font-weight:800;color:var(--paper);white-space:nowrap;}
+  .wx24-bot{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;}
+  .wx24-wx{font-size:0.9rem;color:var(--paper);} .wx24-wx .e{margin-right:0.3rem;}
+  .wx24-p{font-size:0.9rem;font-weight:800;color:var(--muted);white-space:nowrap;}
+  .wx24-row.wet .wx24-p{color:#7fc0ff;}
   /* 品項介紹彈窗 */
   .cropinfo{align-items:center;}
   .cisheet{background:var(--panel);border:1px solid var(--line);border-radius:20px;width:92%;max-width:380px;padding:1.4rem 1.2rem 1.6rem;text-align:center;position:relative;}
@@ -814,8 +825,7 @@ function renderBoard(){
       leftInner=`<div class="mc-nm">${disp}${hasVar?` <span class="mc-vhint">${vlabels.length} 品種</span>`:""}</div>
         <div class="mc-sub">${tag}${leftHint}</div>`;
       rightInner=`<span class="mc-px"><span class="mc-v mono">${pxU(pv.avg).toFixed(1)}</span><span class="mc-u">${unitU()}</span></span>
-        <span class="mc-chg ${dcls} mono">${arr}${chgP>=0?"+":""}${chgP.toFixed(1)}%</span>
-        <span class="mc-khint">📈 K線 ›</span>`;
+        <span class="mc-meta"><span class="mc-chg ${dcls} mono">${arr}${chgP>=0?"+":""}${chgP.toFixed(1)}%</span>${hasVar?`<span class="mc-comb">綜合</span>`:""}</span>`;
       rightAction=()=>openDetail(disp,null);
     }
     card.innerHTML=`<button class="mc-left" type="button">${leftInner}</button>
@@ -828,7 +838,7 @@ function renderBoard(){
     if(expanded){const dd=document.createElement("div");dd.className="vdrop";
       dd.innerHTML=vlabels.map(l=>{const s=variantSeries(disp,l);const ks=Object.keys(s).sort();const last=ks.length?s[ks[ks.length-1]]:null;
         return `<div class="vopt"><button class="vopt-left" type="button" data-v="${l}"><span class="vname">${l}</span><span class="mc-info">ⓘ 說明</span></button>`+
-          `<button class="vopt-right${last?"":" nolink"}" type="button" data-v="${l}">${last?`<span class="vprice mono">${pxU(last.avg).toFixed(1)} ${unitU()}</span><span class="mc-khint">📈 ›</span>`:`<span class="mc-none">無成交</span>`}</button></div>`;}).join("");
+          `<button class="vopt-right${last?"":" nolink"}" type="button" data-v="${l}">${last?`<span class="vprice mono">${pxU(last.avg).toFixed(1)} ${unitU()}</span>`:`<span class="mc-none">無成交</span>`}</button></div>`;}).join("");
       dd.querySelectorAll(".vopt-left").forEach(o=>o.onclick=()=>openCropInfo(disp,o.dataset.v));
       dd.querySelectorAll(".vopt-right").forEach(o=>{const s=variantSeries(disp,o.dataset.v);const has=Object.keys(s).length;
         o.onclick=has?()=>openDetail(disp,o.dataset.v):()=>openCropInfo(disp,o.dataset.v);});
@@ -1139,8 +1149,8 @@ function weatherAdviceHTML(){
   else if(tmax>=40){idx="普通";cls="mid";note="部分時段可能有雨，擺攤留意遮雨。";}
   else{idx="佳";cls="up";note="降雨機率低，適合戶外擺攤。";}
   return `<div class="wadv"><div class="wadv-h">🌦 ${cty} · 擺攤指數 <b class="${cls}">${idx}</b></div>
-    <div class="wadv-l">${rainLine}</div><div class="wadv-l">${note}</div>${fcStripHTML()}
-    <div class="wadv-f">中央氣象署 · 今明 36 小時預報（可在 ⚙️ 換地區）</div></div>`;
+    <div class="wadv-l">${rainLine}</div><div class="wadv-l">${note}</div>
+    <div class="wadv-f">中央氣象署今明預報 · 詳細見下方逐時段（可在 ⚙️ 換地區）</div></div>`;
 }
 /* 颱風/豪雨警戒卡（商人看板頁用；置於天氣預報之上）。平安時回傳 noteworthy=false 讓看板隱藏不佔版面。 */
 function typhoonAlertInfo(){
@@ -1298,22 +1308,29 @@ function switchTab(m){
   }
   if(m==="weather")renderWeather();
 }
-/* ══════ 天氣分頁：颱風警戒＋擺攤指數，都集中在這 ══════ */
+/* ══════ 天氣分頁：颱風警戒＋擺攤指數＋逐時段天氣，都集中在這 ══════ */
+function fcHour(s){const m=String(s).match(/ (\d{2}):/);return m?m[1]:"";}
+function wx24HTML(){
+  const ps=fcPeriods();if(!ps.length)return "";
+  return `<div class="wx24"><h3 class="wx24-h">🕐 未來 24 小時天氣</h3>`+
+    ps.map(p=>{const wet=p.pop!=null&&p.pop>=50;const t=`${fcHour(p.start)}–${fcHour(p.end)}時`;
+      return `<div class="wx24-row${wet?' wet':''}">
+        <div class="wx24-top"><span class="wx24-lab">${p.label||""}<small>${t}</small></span><span class="wx24-tp">${fcTempText(p)||""}</span></div>
+        <div class="wx24-bot"><span class="wx24-wx"><span class="e">${wxEmoji(p.wx)}</span>${p.wx||""}</span><span class="wx24-p">${p.pop!=null?"☔ "+p.pop+"%":"–"}</span></div>
+      </div>`;}).join("")+`</div>`;
+}
 function renderWeather(){
   const wrap=document.getElementById("weatherWrap");if(!wrap)return;
   const a=typhoonAlertInfo();
   const advice=weatherAdviceHTML();
+  const wx24=wx24HTML();
   wrap.innerHTML=`<h2 class="wx-h">🌦 ${activeCounty()} 天氣</h2>`
     +`<div class="${a.cls}" id="wxAlert">${a.html}</div>`
-    +(advice||`<div class="empty">目前無天氣預報資料，稍後排程更新後即顯示。</div>`)
+    +(advice||"")
+    +(wx24||(advice?"":`<div class="empty">目前無天氣預報資料，稍後排程更新後即顯示。</div>`))
     +`<p class="wx-foot">天氣／颱風資料採中央氣象署開放資料。可在右上 ⚙️ 更換「天氣預報地區」。</p>`;
   const al=document.getElementById("wxAlert");if(al&&a.clickable)al.onclick=openTyphoon;
-  updateWeatherBadge();
 }
-/* 天氣分頁小紅點：有颱風/豪雨警戒時提示 */
-function updateWeatherBadge(){const t=document.querySelector('.tab[data-t="weather"]');if(!t)return;
-  let noteworthy=false;try{noteworthy=typhoonAlertInfo().noteworthy;}catch(e){}
-  t.classList.toggle("hasalert",noteworthy);}
 let CMPCAT="蔬菜";
 function renderCmpCat(){const bar=document.getElementById("cmpCat");if(!bar)return;
   const all=Object.keys(cropMap());const present=["蔬菜","水果"].filter(cat=>all.some(c=>cropCat(c)===cat));
@@ -1418,7 +1435,7 @@ function singleRoleUI(){document.documentElement.dataset.app=APP;}
   await loadMarket(MARKET);
   WEVENTS=await loadEvents();
   renderBoard();   // 預設進看板清單；點一項才進詳細頁（K線+逐日明細）
-  WEATHER=await loadWeather();FORECAST=await loadForecast();updateWeatherBadge();   // 天氣載入後更新分頁紅點
+  WEATHER=await loadWeather();FORECAST=await loadForecast();
   applyRole();   // 顯示/隱藏分頁
 })();
 /* PWA：註冊 Service Worker（可安裝到主畫面、離線可用）。失敗不影響網頁運作。 */
