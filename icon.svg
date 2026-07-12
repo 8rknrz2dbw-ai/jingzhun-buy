@@ -1,64 +1,102 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="精準進貨 App 圖示：蔬果">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="精準進貨 App 圖示：蔬果籃">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#3A2614"/>
-      <stop offset="1" stop-color="#180F0A"/>
+    <linearGradient id="bgc" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFDF8"/>
+      <stop offset="1" stop-color="#F4EFE3"/>
     </linearGradient>
-    <radialGradient id="glow" cx="0.5" cy="0.30" r="0.72">
-      <stop offset="0" stop-color="#C4762A" stop-opacity="0.5"/>
-      <stop offset="1" stop-color="#C4762A" stop-opacity="0"/>
-    </radialGradient>
+    <linearGradient id="basket" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#D79A55"/>
+      <stop offset="1" stop-color="#B87A38"/>
+    </linearGradient>
     <linearGradient id="apple" x1="0" y1="0" x2="0.2" y2="1">
-      <stop offset="0" stop-color="#F0574A"/>
-      <stop offset="1" stop-color="#D23528"/>
+      <stop offset="0" stop-color="#EA5647"/>
+      <stop offset="1" stop-color="#D0362A"/>
     </linearGradient>
     <linearGradient id="orange" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#FBA53A"/>
+      <stop offset="0" stop-color="#FAA43A"/>
       <stop offset="1" stop-color="#F0851E"/>
     </linearGradient>
   </defs>
 
-  <!-- 底：深莓紫（水果配色，與精準務農綠色系區別） -->
-  <rect width="512" height="512" fill="url(#bg)"/>
-  <rect width="512" height="512" fill="url(#glow)"/>
+  <!-- 底：柔白暖底 -->
+  <rect width="512" height="512" fill="url(#bgc)"/>
 
-  <!-- 蔬菜：葉菜（青江/白菜）襯於後方 -->
-  <g stroke="#25451f" stroke-width="5" stroke-linejoin="round">
-    <path d="M196 250C158 232 138 180 150 132C186 150 210 196 214 252Z" fill="#5ba33f"/>
-    <path d="M316 250C354 232 374 180 362 132C326 150 302 196 298 252Z" fill="#4f9137"/>
-    <path d="M256 268C232 224 232 168 256 120C280 168 280 224 256 268Z" fill="#6fb84a"/>
-  </g>
-  <g fill="#eef3e0" stroke="#c2cfa6" stroke-width="4">
-    <path d="M214 256C204 214 214 168 244 150C256 190 252 232 236 262Z"/>
-    <path d="M298 256C308 214 298 168 268 150C256 190 260 232 276 262Z"/>
+  <!-- 提把（在後方） -->
+  <path d="M150 322C150 202 200 160 256 160C312 160 362 202 362 322" fill="none" stroke="#6E4A25" stroke-width="30" stroke-linecap="round"/>
+  <path d="M150 322C150 202 200 160 256 160C312 160 362 202 362 322" fill="none" stroke="#CB9152" stroke-width="19" stroke-linecap="round"/>
+  <g stroke="#8A5C2C" stroke-width="4" stroke-linecap="round" opacity="0.8">
+    <path d="M168 214l15 9"/><path d="M190 188l14 11"/><path d="M216 170l12 13"/><path d="M296 170l-12 13"/><path d="M322 188l-14 11"/><path d="M344 214l-15 9"/>
   </g>
 
-  <!-- 葡萄：一串紫葡萄（品牌紫＋水果多樣） -->
+  <!-- 葉菜（後方） -->
+  <g stroke="#2F5A26" stroke-width="5" stroke-linejoin="round">
+    <path d="M214 322C150 322 118 262 128 206C134 176 166 170 188 190C206 168 236 180 236 212C240 258 234 300 208 322Z" fill="#4C8F35"/>
+    <path d="M300 322C300 268 320 210 358 200C364 226 352 274 330 322Z" fill="#6FB84A"/>
+    <path d="M244 322C226 280 226 220 254 190C270 218 268 274 260 322Z" fill="#6FB84A"/>
+    <path d="M270 320C262 262 266 204 286 178C302 206 300 266 292 320Z" fill="#5BA33F"/>
+  </g>
+  <g stroke="#3F7D34" stroke-width="3" fill="none" opacity="0.7">
+    <path d="M182 316C172 270 166 232 170 198"/><path d="M254 314C250 268 252 226 262 196"/><path d="M282 314C276 268 280 224 286 194"/>
+  </g>
+
+  <!-- 葡萄（右上，越過籃緣） -->
   <g>
-    <path d="M172 226C158 214 158 196 176 192C180 208 178 220 172 228Z" fill="#5ba33f" stroke="#2f5a26" stroke-width="3"/>
-    <g stroke="#4d2a6b" stroke-width="4" fill="#B267E0">
-      <circle cx="150" cy="268" r="26"/><circle cx="200" cy="268" r="26"/>
-      <circle cx="126" cy="308" r="26" fill="#9A4FCB"/><circle cx="175" cy="312" r="27"/><circle cx="224" cy="308" r="26" fill="#9A4FCB"/>
-      <circle cx="150" cy="352" r="26"/><circle cx="200" cy="352" r="26" fill="#9A4FCB"/>
-      <circle cx="176" cy="392" r="25"/>
+    <path d="M436 250C446 238 462 240 466 254C452 258 442 258 434 254Z" fill="#5BA33F" stroke="#2F5A26" stroke-width="3"/>
+    <g stroke="#4D2A6B" stroke-width="3.5" fill="#9B59C4">
+      <circle cx="402" cy="266" r="16"/><circle cx="434" cy="262" r="16" fill="#8248B0"/>
+      <circle cx="388" cy="294" r="16" fill="#8248B0"/><circle cx="418" cy="292" r="17"/><circle cx="448" cy="290" r="16" fill="#8248B0"/>
+      <circle cx="404" cy="320" r="16"/><circle cx="434" cy="320" r="16" fill="#8248B0"/>
+      <circle cx="420" cy="344" r="15"/>
     </g>
-    <g fill="#D79BF0" opacity="0.65">
-      <circle cx="142" cy="260" r="7"/><circle cx="192" cy="260" r="7"/><circle cx="167" cy="304" r="7"/><circle cx="168" cy="384" r="6"/>
-    </g>
+    <g fill="#C89BE0" opacity="0.6"><circle cx="396" cy="260" r="4.5"/><circle cx="428" cy="256" r="4.5"/><circle cx="412" cy="286" r="4.5"/></g>
   </g>
 
-  <!-- 蘋果：主角紅蘋果 -->
+  <!-- 紅蘋果（主角） -->
   <g>
-    <path d="M310 214C334 194 372 200 388 224C332 214 316 236 312 258Z" fill="#5ba33f" stroke="#2f5a26" stroke-width="4"/>
-    <path d="M300 210C302 182 296 156 300 138" fill="none" stroke="#6E4A22" stroke-width="9" stroke-linecap="round"/>
-    <path d="M300 226C276 198 240 194 218 216C190 244 188 312 210 362C230 408 272 424 300 410C328 424 370 408 390 362C412 312 410 244 382 216C360 194 324 198 300 226Z" fill="url(#apple)" stroke="#A32A1F" stroke-width="5"/>
-    <path d="M236 250C218 274 216 312 226 344C214 306 224 268 250 246C246 246 240 247 236 250Z" fill="#F7A38F" opacity="0.55"/>
+    <path d="M286 224C288 208 294 198 300 190" fill="none" stroke="#6E4A22" stroke-width="8" stroke-linecap="round"/>
+    <path d="M300 200C316 188 336 192 342 206C328 208 314 216 308 228Z" fill="#5BA33F" stroke="#2F5A26" stroke-width="3.5"/>
+    <path d="M285 240C270 220 242 220 229 240C214 262 216 302 236 324C251 340 277 340 285 328C293 340 319 340 334 324C354 302 356 262 341 240C328 220 300 220 285 240Z" fill="url(#apple)" stroke="#A32A1F" stroke-width="5.5"/>
+    <path d="M250 260C240 278 240 302 250 320C238 300 240 272 258 256C255 256 252 257 250 260Z" fill="#F7A38F" opacity="0.5"/>
   </g>
 
-  <!-- 橘子：小柑橘點綴 -->
+  <!-- 青蘋果 -->
   <g>
-    <circle cx="352" cy="376" r="62" fill="url(#orange)" stroke="#C06A18" stroke-width="5"/>
-    <path d="M344 318C346 306 356 300 368 304C364 314 356 320 346 320Z" fill="#5ba33f" stroke="#2f5a26" stroke-width="3"/>
-    <ellipse cx="330" cy="352" rx="16" ry="11" fill="#FFD08A" opacity="0.65"/>
+    <path d="M344 236C346 222 350 214 356 208" fill="none" stroke="#6E4A22" stroke-width="7" stroke-linecap="round"/>
+    <path d="M344 254C332 240 310 240 300 256C288 276 292 308 308 324C320 336 340 334 344 326C348 334 368 336 380 324C396 308 400 276 388 256C378 240 356 240 344 254Z" fill="#9BCB54" stroke="#5B8A2A" stroke-width="5"/>
+    <path d="M318 268C310 282 310 302 318 316C308 300 310 278 324 266C322 266 320 266 318 268Z" fill="#E6F2C0" opacity="0.5"/>
   </g>
+
+  <!-- 柑橘 -->
+  <g>
+    <circle cx="392" cy="300" r="35" fill="url(#orange)" stroke="#C06A18" stroke-width="5"/>
+    <path d="M384 270C386 258 396 252 408 256C404 266 396 272 386 272Z" fill="#5BA33F" stroke="#2F5A26" stroke-width="3"/>
+    <ellipse cx="378" cy="290" rx="11" ry="7" fill="#FFD08A" opacity="0.6"/>
+  </g>
+
+  <!-- 番茄（前方） -->
+  <g stroke="#A32A1F" stroke-width="5">
+    <circle cx="220" cy="302" r="31" fill="#E23B34"/>
+    <circle cx="266" cy="316" r="27" fill="#E23B34"/>
+  </g>
+  <g fill="#5BA33F" stroke="#2F5A26" stroke-width="2.5">
+    <path d="M220 276C214 268 206 268 202 274C210 276 214 280 214 288C218 282 220 280 220 276C220 280 222 282 226 288C226 280 230 276 238 274C234 268 226 268 220 276Z"/>
+    <path d="M266 292C261 286 255 286 252 291C258 292 261 296 261 302C264 297 266 296 266 292C266 296 268 297 272 302C272 296 276 292 282 291C279 286 271 286 266 292Z"/>
+  </g>
+  <g fill="#F7A38F" opacity="0.5"><ellipse cx="208" cy="292" rx="8" ry="5"/><ellipse cx="256" cy="308" rx="7" ry="4"/></g>
+
+  <!-- 籃身（前方，蓋住蔬果下半） -->
+  <path d="M108 332C106 332 104 335 106 344L150 476C153 488 163 494 176 494L336 494C349 494 359 488 362 476L406 344C408 335 406 332 404 332Z" fill="url(#basket)" stroke="#6E4A25" stroke-width="6" stroke-linejoin="round"/>
+  <g stroke="#6E4A25" stroke-width="3.5" fill="none" opacity="0.65">
+    <path d="M122 372C186 388 326 388 390 372"/>
+    <path d="M133 412C190 426 322 426 379 412"/>
+    <path d="M144 452C194 464 318 464 368 452"/>
+  </g>
+  <g stroke="#7A5330" stroke-width="3" opacity="0.55">
+    <path d="M162 340L172 490"/><path d="M212 336L216 492"/><path d="M256 335L256 494"/><path d="M300 336L296 492"/><path d="M350 340L340 490"/>
+  </g>
+
+  <!-- 籃緣 -->
+  <ellipse cx="256" cy="332" rx="150" ry="27" fill="#CB9152" stroke="#6E4A25" stroke-width="6"/>
+  <g stroke="#6E4A25" stroke-width="3.4" stroke-linecap="round" opacity="0.8">
+    <path d="M132 328l18 12"/><path d="M168 320l16 14"/><path d="M206 315l14 16"/><path d="M246 313l10 18"/><path d="M290 314l-12 17"/><path d="M330 318l-14 15"/><path d="M366 325l-16 13"/></g>
 </svg>
