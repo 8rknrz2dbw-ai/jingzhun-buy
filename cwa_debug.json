@@ -1,6 +1,6 @@
 {
   "key_set": true,
-  "generated": "2026-07-12T22:32:55.436773+08:00",
+  "generated": "2026-07-12T22:37:11.062850+08:00",
   "W-C0034-001_warning": {
     "info": {
       "__list_len__": 1,
@@ -122,7 +122,7 @@
         "StationId": "str=C1I230",
         "Maintainer": "str=中央氣象署",
         "ObsTime": {
-          "DateTime": "str=2026-07-12T22:20:00+08:00"
+          "DateTime": "str=2026-07-12T22:30:00+08:00"
         },
         "GeoInfo": {
           "Coordinates": {
@@ -160,7 +160,7 @@
             "Precipitation": "str=0.0"
           },
           "Past24hr": {
-            "Precipitation": "str=3.5"
+            "Precipitation": "str=3.0"
           },
           "Past2days": {
             "Precipitation": "str=126.0"
@@ -177,7 +177,7 @@
     "StationId": "A0K420",
     "Maintainer": "中央氣象署",
     "ObsTime": {
-      "DateTime": "2026-07-12T22:20:00+08:00"
+      "DateTime": "2026-07-12T22:30:00+08:00"
     },
     "GeoInfo": {
       "Coordinates": [
@@ -403,28 +403,28 @@
   ],
   "hourly_taichung_sample": [
     {
-      "t": "2026-07-12T22:00:00+08:00",
-      "pop": null,
-      "temp": 29,
-      "wx": ""
-    },
-    {
-      "t": "2026-07-12T23:00:00+08:00",
-      "pop": null,
-      "temp": 29,
-      "wx": ""
-    },
-    {
       "t": "2026-07-13T00:00:00+08:00",
       "pop": 10,
       "temp": 29,
       "wx": "多雲"
     },
     {
-      "t": "2026-07-13T01:00:00+08:00",
-      "pop": null,
-      "temp": 29,
-      "wx": ""
+      "t": "2026-07-13T03:00:00+08:00",
+      "pop": 10,
+      "temp": 28,
+      "wx": "多雲"
+    },
+    {
+      "t": "2026-07-13T06:00:00+08:00",
+      "pop": 10,
+      "temp": 27,
+      "wx": "多雲"
+    },
+    {
+      "t": "2026-07-13T09:00:00+08:00",
+      "pop": 10,
+      "temp": 30,
+      "wx": "多雲"
     }
   ]
 }
