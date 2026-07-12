@@ -325,6 +325,10 @@
   .wadv-h{font-weight:900;font-size:1rem;margin-bottom:0.35rem;} .wadv-h b.up{color:var(--g);} .wadv-h b.mid{color:var(--y);} .wadv-h b.dn{color:var(--r);}
   .wadv-l{font-size:0.9rem;line-height:1.55;color:var(--paper);margin:0.15rem 0;} .wadv-l b{color:var(--cool);}
   .wadv-f{font-size:0.7rem;color:var(--muted);margin-top:0.3rem;}
+  .wadv-warn{display:flex;align-items:center;gap:0.3rem;margin:0.45rem 0;padding:0.5rem 0.7rem;border-radius:10px;font-size:0.9rem;font-weight:800;border:1px solid;}
+  .wadv-warn.dn{color:#ffb0a0;background:rgba(228,87,46,.14);border-color:rgba(228,87,46,.42);}
+  .wadv-warn.mid{color:#ebc44e;background:rgba(242,183,5,.12);border-color:rgba(242,183,5,.36);}
+  .wadv-warn.clickable{cursor:pointer;} .wadv-warn b{color:var(--paper);}
   .fcstrip{display:flex;gap:0.4rem;margin-top:0.5rem;}
   .fcslot{flex:1 1 0;min-width:0;text-align:center;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:0.5rem 0.25rem;}
   .fcslot.wet{border-color:#3f79c9;background:rgba(59,125,216,.14);}
@@ -1139,16 +1143,27 @@ function fcStripHTML(){const s=fcPeriods().slice(0,4);if(!s.length)return "";
     `<span class="fcwx">${wxEmoji(x.wx)}</span>`+
     `<span class="fcpop">${x.pop!=null?"☔"+x.pop+"%":"–"}</span>`+
     `<span class="fctemp">${fcTempText(x)}</span></div>`;}).join("")}</div>`;}
+/* 颱風/豪雨警戒橫幅（精簡；併入擺攤指數卡頂端，只講事實、避免與擺攤建議重複）。無警戒回空。 */
+function weatherWarnHTML(){
+  const w=WEATHER||{active:false};const rain24=+w.rain_24h_mm||0;const ri=regionInvasion();
+  let txt,cls,click=false;
+  if(w.active){cls="dn";click=true;txt=`⚠ 颱風 <b>${w.name||"警報"}</b> · ${w.warning||"接近中"}｜${ri.name}侵襲率 ${ri.prob!=null?Math.round(ri.prob*100)+"%":"—"} ›`;}
+  else if(rain24>=80){cls="dn";txt=`⚠ ${rain24>=200?"豪雨特報":"大雨特報"} · 24hr 雨量 <b>${rain24}mm</b>`;}
+  else if(w.tracking){cls="mid";click=true;txt=`🌀 颱風 <b>${w.name||"—"}</b> 追蹤中${w.min_dist_km!=null?"｜最近 "+w.min_dist_km+"km":""} ›`;}
+  else return "";
+  return `<div class="wadv-warn ${cls}${click?" clickable":""}"${click?' id="wxWarn"':''}>${txt}</div>`;
+}
 function weatherAdviceHTML(){
   const s=fcPeriods();if(!s.length)return "";     // 無預報資料就不顯示（不佔版面）
   const cty=activeCounty();const nr=fcNextRain();const tmax=fcTodayMaxPop();
-  const rainLine=nr?`☔ 可能下雨：<b>${nr.label||"近期"}</b>（降雨機率 ${nr.pop}%）`
+  const rainLine=nr?`☔ 最近可能下雨：<b>${nr.label||"近期"}</b>（降雨機率 ${nr.pop}%）`
     :`🌤 今明降雨機率偏低，以晴到多雲為主。`;
   let idx,cls,note;
   if(tmax>=70){idx="不佳";cls="dn";note="降雨機率高，戶外擺攤請備雨具或改期、生鮮防潮。";}
   else if(tmax>=40){idx="普通";cls="mid";note="部分時段可能有雨，擺攤留意遮雨。";}
   else{idx="佳";cls="up";note="降雨機率低，適合戶外擺攤。";}
   return `<div class="wadv"><div class="wadv-h">🌦 ${cty} · 擺攤指數 <b class="${cls}">${idx}</b></div>
+    ${weatherWarnHTML()}
     <div class="wadv-l">${rainLine}</div><div class="wadv-l">${note}</div>
     <div class="wadv-f">中央氣象署今明預報 · 詳細見下方逐時段（可在 ⚙️ 換地區）</div></div>`;
 }
@@ -1321,15 +1336,15 @@ function wx24HTML(){
 }
 function renderWeather(){
   const wrap=document.getElementById("weatherWrap");if(!wrap)return;
-  const a=typhoonAlertInfo();
-  const advice=weatherAdviceHTML();
-  const wx24=wx24HTML();
-  wrap.innerHTML=`<h2 class="wx-h">🌦 ${activeCounty()} 天氣</h2>`
-    +`<div class="${a.cls}" id="wxAlert">${a.html}</div>`
-    +(advice||"")
-    +(wx24||(advice?"":`<div class="empty">目前無天氣預報資料，稍後排程更新後即顯示。</div>`))
+  const cty=activeCounty();const advice=weatherAdviceHTML();const wx24=wx24HTML();
+  let body;
+  if(advice){ body=advice+wx24; }   // 擺攤指數卡已含警戒橫幅；下接逐時天氣
+  else { const a=typhoonAlertInfo();  // 無預報資料時的退路：仍顯示警戒卡
+    body=`<div class="${a.cls}" id="wxAlert">${a.html}</div><div class="empty">目前無天氣預報資料，稍後排程更新後即顯示。</div>`; }
+  wrap.innerHTML=`<h2 class="wx-h">🌦 ${cty} 天氣</h2>`+body
     +`<p class="wx-foot">天氣／颱風資料採中央氣象署開放資料。可在右上 ⚙️ 更換「天氣預報地區」。</p>`;
-  const al=document.getElementById("wxAlert");if(al&&a.clickable)al.onclick=openTyphoon;
+  const wn=document.getElementById("wxWarn");if(wn)wn.onclick=openTyphoon;   // 點警戒橫幅→颱風詳情
+  const al=document.getElementById("wxAlert");if(al&&typhoonAlertInfo().clickable)al.onclick=openTyphoon;
 }
 let CMPCAT="蔬菜";
 function renderCmpCat(){const bar=document.getElementById("cmpCat");if(!bar)return;
