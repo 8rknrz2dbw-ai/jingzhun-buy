@@ -1325,12 +1325,21 @@ function switchTab(m){
 }
 /* ══════ 天氣分頁：颱風警戒＋擺攤指數＋逐時段天氣，都集中在這 ══════ */
 function fcHour(s){const m=String(s).match(/ (\d{2}):/);return m?m[1]:"";}
+/* 逐時段標籤：由起始時間推「今晨/今日白天/今日午後/今晚/明…」，避免 CWA 兩段都叫「今晚」的混淆 */
+function fcLabel(p){
+  const sd=String(p.start||"").slice(0,10),sh=+fcHour(p.start);
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(sd)||isNaN(sh))return p.label||"";
+  const today=todayISO(),tmr=addDaysISO(today,1);
+  const day=sd===today?"今":sd===tmr?"明":(sd>tmr?"後":"");
+  const part=sh<5?"晨":sh<12?"日白天":sh<18?"日午後":"晚";
+  return day?day+part:(p.label||"");
+}
 function wx24HTML(){
   const ps=fcPeriods();if(!ps.length)return "";
   return `<div class="wx24"><h3 class="wx24-h">🕐 未來 24 小時天氣</h3>`+
     ps.map(p=>{const wet=p.pop!=null&&p.pop>=50;const t=`${fcHour(p.start)}–${fcHour(p.end)}時`;
       return `<div class="wx24-row${wet?' wet':''}">
-        <div class="wx24-top"><span class="wx24-lab">${p.label||""}<small>${t}</small></span><span class="wx24-tp">${fcTempText(p)||""}</span></div>
+        <div class="wx24-top"><span class="wx24-lab">${fcLabel(p)}<small>${t}</small></span><span class="wx24-tp">${fcTempText(p)||""}</span></div>
         <div class="wx24-bot"><span class="wx24-wx"><span class="e">${wxEmoji(p.wx)}</span>${p.wx||""}</span><span class="wx24-p">${p.pop!=null?"☔ "+p.pop+"%":"–"}</span></div>
       </div>`;}).join("")+`</div>`;
 }
