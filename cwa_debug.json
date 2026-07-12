@@ -1,6 +1,6 @@
 {
   "key_set": true,
-  "generated": "2026-07-12T22:19:25.112464+08:00",
+  "generated": "2026-07-12T22:27:38.490141+08:00",
   "W-C0034-001_warning": {
     "info": {
       "__list_len__": 1,
@@ -122,7 +122,7 @@
         "StationId": "str=C1I230",
         "Maintainer": "str=中央氣象署",
         "ObsTime": {
-          "DateTime": "str=2026-07-12T22:10:00+08:00"
+          "DateTime": "str=2026-07-12T22:20:00+08:00"
         },
         "GeoInfo": {
           "Coordinates": {
@@ -177,7 +177,7 @@
     "StationId": "A0K420",
     "Maintainer": "中央氣象署",
     "ObsTime": {
-      "DateTime": "2026-07-12T22:10:00+08:00"
+      "DateTime": "2026-07-12T22:20:00+08:00"
     },
     "GeoInfo": {
       "Coordinates": [
@@ -344,7 +344,41 @@
     "雲林縣",
     "高雄市"
   ],
-  "F-D0047-093_hourly": "NoneType=None",
-  "F-D0047-093_counties_parsed": [],
-  "F-D0047-093_taichung_sample": []
+  "hourly_source": "F-D0047-089",
+  "hourly_struct": {
+    "Locations": {
+      "__list_len__": 1,
+      "__item__": {
+        "DatasetDescription": "str=臺灣各縣市鄉鎮未來3天天氣預報",
+        "LocationsName": "str=台灣",
+        "Dataid": "str=D0047-089",
+        "Location": {
+          "__list_len__": 22,
+          "__item__": {
+            "LocationName": "str=連江縣",
+            "Geocode": "str=09007000",
+            "Latitude": "str=26.154204",
+            "Longitude": "str=119.929303",
+            "WeatherElement": {
+              "__list_len__": 10,
+              "__item__": {
+                "ElementName": "str=溫度",
+                "Time": {
+                  "__list_len__": 56,
+                  "__item__": {
+                    "DataTime": "…",
+                    "ElementValue": "…"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "hourly_counties_parsed": [
+    "台灣"
+  ],
+  "hourly_taichung_sample": []
 }
