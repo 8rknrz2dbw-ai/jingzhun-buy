@@ -42,8 +42,11 @@ DATASETS = {
     "rainfall":        "O-A0002-001",   # 自動雨量站
     "temp_obs":        "O-A0001-001",   # 自動氣象站（含氣溫，供低溫/寒流事件）
     "county_fcst":     "F-C0032-001",   # 全國各縣市今明 36 小時天氣預報（全國、輕量、穩定）
-    "hourly_3h_all":   "F-D0047-093",   # 全國各鄉鎮市區未來 3 天天氣預報（逐 3 小時，供「未來 24 小時」逐時）
 }
+
+# 全國各鄉鎮逐 3 小時預報（供「未來 24 小時」逐時）：資料集代碼常異動，逐一嘗試、取第一個可用。
+# F-D0047-089＝臺灣各鄉鎮未來 2 天(逐 3 小時)；F-D0047-091＝未來 1 週。（-093 已不存在，會 404）
+HOURLY_DATASETS = ["F-D0047-089", "F-D0047-091"]
 
 # 天氣事件累積檔（K線標記用）；僅逐日「向前累積」真實觀測，不臆造歷史。
 EVENTS_FILE = "weather_events.json"
@@ -53,15 +56,15 @@ RAIN_TORRENT_MM = 200          # CWA 豪雨：24hr 累積達 200mm
 COLD_TEMP_C = 10               # 平地氣溫 ≤10°C 視為低溫/寒流量級
 
 
-def cwa_get(dataid, **params):
-    """呼叫 CWA REST API，回傳 records dict（失敗回 None）。"""
+def cwa_get(dataid, timeout=30, **params):
+    """呼叫 CWA REST API，回傳 records dict（失敗回 None）。timeout 可調（大資料集如全國逐時預報放寬）。"""
     key = os.environ.get("CWA_API_KEY")
     if not key or requests is None:
         return None
     url = f"{BASE}/{dataid}"
     params = {"Authorization": key, "format": "JSON", **params}
     try:
-        r = requests.get(url, params=params, timeout=30)
+        r = requests.get(url, params=params, timeout=timeout)
         r.raise_for_status()
         j = r.json()
         # CWA 慣例：{ success, records: {...} }
@@ -549,7 +552,13 @@ def main():
     rain_recs = cwa_get(DATASETS["rainfall"], CountyName=COUNTY)
     temp_recs = cwa_get(DATASETS["temp_obs"], CountyName=COUNTY)
     county_recs = cwa_get(DATASETS["county_fcst"])           # 全國各縣市今明 36 小時（全國天氣預報）
-    hourly_recs = cwa_get(DATASETS["hourly_3h_all"])         # 全國各鄉鎮未來 3 天逐 3 小時（供「未來 24 小時」逐時）
+    # 全國各鄉鎮逐 3 小時：逐一嘗試候選代碼，取第一個抓到的（大資料集放寬 timeout）
+    hourly_recs, hourly_src = None, None
+    for did in HOURLY_DATASETS:
+        rec = cwa_get(did, timeout=60)
+        if rec:
+            hourly_recs, hourly_src = rec, did
+            break
 
     # 未來天氣預報：counties = 12 小時分段（擺攤指數/何時下雨用）；hourly = 逐 3 小時（未來 24 小時逐時用）
     counties = parse_nationwide_36h(county_recs, now)
@@ -557,7 +566,7 @@ def main():
     try:
         with open("weather_forecast.json", "w", encoding="utf-8") as f:
             json.dump({"updated": now.strftime("%Y-%m-%d %H:%M"),
-                       "source": "CWA F-C0032-001 + F-D0047-093",
+                       "source": f"CWA F-C0032-001 + {hourly_src or '(逐時暫無)'}",
                        "counties": counties, "hourly": hourly}, f, ensure_ascii=False, indent=2)
     except Exception as e:
         print(f"[fetch_cwa] 預報寫出失敗：{e}", file=sys.stderr)
@@ -574,9 +583,10 @@ def main():
                        "O-A0001-001_temp_yunlin_sample": _first_local_station(temp_recs),
                        "F-C0032-001_fcst": _struct(county_recs),
                        "F-C0032-001_counties_parsed": sorted(counties.keys()),
-                       "F-D0047-093_hourly": _struct(hourly_recs),
-                       "F-D0047-093_counties_parsed": sorted(hourly.keys()),
-                       "F-D0047-093_taichung_sample": hourly.get("台中市", [])[:4]},
+                       "hourly_source": hourly_src,
+                       "hourly_struct": _struct(hourly_recs),
+                       "hourly_counties_parsed": sorted(hourly.keys()),
+                       "hourly_taichung_sample": hourly.get("台中市", [])[:4]},
                       f, ensure_ascii=False, indent=2)
     except Exception as e:
         print(f"[fetch_cwa] debug dump 失敗：{e}", file=sys.stderr)
@@ -637,6 +647,8 @@ def main():
           f"dist={status.get('min_dist_km')}km rain24={rain24} rain1={rain1} temp_min={temp_min}")
     print(f"[fetch_cwa] 天氣事件累積：共 {len(events)} 筆，今日新增 {len(todays)} 筆"
           + (f"（{'、'.join(e['type'] for e in todays)}）" if todays else ""))
+    print(f"[fetch_cwa] 逐時預報：來源={hourly_src or '無'} 縣市數={len(hourly)} "
+          f"台中時段={len(hourly.get('台中市', []))}")
     if not key_set:
         print("[fetch_cwa] 未設 CWA_API_KEY → active=false 安全狀態。", file=sys.stderr)
 
