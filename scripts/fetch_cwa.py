@@ -427,7 +427,10 @@ def _hourly_series(elems, now):
             continue
         r = series[t]
         rows.append({"t": t, "pop": r.get("pop"), "temp": r.get("temp"), "wx": r.get("wx", "")})
-    return rows
+    # F-D0047-089：溫度逐時、降雨機率/天氣現象逐 3 小時 → 只留「有天氣/降雨」的時段當逐 3 小時代表，
+    # 避免整點列大量空白（溫度在這些時段也在，故仍完整）。若整份都沒天氣現象才退回逐時全量。
+    complete = [r for r in rows if r.get("wx") or r.get("pop") is not None]
+    return complete or rows
 
 
 def parse_hourly_3h(recs, now):
