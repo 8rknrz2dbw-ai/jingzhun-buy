@@ -1,6 +1,6 @@
 {
   "key_set": true,
-  "generated": "2026-07-12T22:37:11.062850+08:00",
+  "generated": "2026-07-12T23:44:06.812862+08:00",
   "W-C0034-001_warning": {
     "info": {
       "__list_len__": 1,
@@ -122,7 +122,7 @@
         "StationId": "str=C1I230",
         "Maintainer": "str=中央氣象署",
         "ObsTime": {
-          "DateTime": "str=2026-07-12T22:30:00+08:00"
+          "DateTime": "str=2026-07-12T23:30:00+08:00"
         },
         "GeoInfo": {
           "Coordinates": {
@@ -160,7 +160,7 @@
             "Precipitation": "str=0.0"
           },
           "Past24hr": {
-            "Precipitation": "str=3.0"
+            "Precipitation": "str=1.5"
           },
           "Past2days": {
             "Precipitation": "str=126.0"
@@ -177,7 +177,7 @@
     "StationId": "A0K420",
     "Maintainer": "中央氣象署",
     "ObsTime": {
-      "DateTime": "2026-07-12T22:30:00+08:00"
+      "DateTime": "2026-07-12T23:30:00+08:00"
     },
     "GeoInfo": {
       "Coordinates": [
@@ -234,7 +234,7 @@
     "StationName": "箔子寮",
     "StationId": "C0K600",
     "ObsTime": {
-      "DateTime": "2026-07-12T22:00:00+08:00"
+      "DateTime": "2026-07-12T23:00:00+08:00"
     },
     "GeoInfo": {
       "Coordinates": [
@@ -262,16 +262,16 @@
       "Now": {
         "Precipitation": "0.5"
       },
-      "WindDirection": "192.0",
-      "WindSpeed": "8.0",
-      "AirTemperature": "29.5",
+      "WindDirection": "193.0",
+      "WindSpeed": "7.9",
+      "AirTemperature": "29.4",
       "RelativeHumidity": "84",
-      "AirPressure": "1003.2",
+      "AirPressure": "1003.3",
       "GustInfo": {
-        "PeakGustSpeed": "14.4",
+        "PeakGustSpeed": "-99",
         "Occurred_at": {
-          "WindDirection": "186.0",
-          "DateTime": "2026-07-12T21:04:00+08:00"
+          "WindDirection": "-99",
+          "DateTime": "-99"
         }
       },
       "DailyExtreme": {
@@ -307,7 +307,7 @@
             "time": {
               "__list_len__": 3,
               "__item__": {
-                "startTime": "str=2026-07-12 18:00:00",
+                "startTime": "str=2026-07-13 00:00:00",
                 "endTime": "str=2026-07-13 06:00:00",
                 "parameter": {
                   "parameterName": "str=多雲時晴",
