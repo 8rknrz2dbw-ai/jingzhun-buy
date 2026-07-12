@@ -391,67 +391,82 @@ def _first_local_station(records, county=COUNTY):
     return found[0]
 
 
+def _hourly_series(elems, now):
+    """由一組 WeatherElement 萃取逐時段序列 [{'t','pop','temp','wx'}]（只留現在起的未來時段）。"""
+    series = {}
+    for e in (elems or []):
+        en = str(e.get("ElementName") or e.get("elementName") or "")
+        for tm in (e.get("Time") or e.get("time") or []):
+            t = str(tm.get("DataTime") or tm.get("StartTime")
+                    or tm.get("dataTime") or tm.get("startTime") or "")
+            if not t:
+                continue
+            ev = tm.get("ElementValue") or tm.get("elementValue") or []
+            if isinstance(ev, dict):
+                ev = [ev]
+            v = ev[0] if ev else {}
+            rec = series.setdefault(t, {})
+            if "降雨機率" in en:
+                raw = v.get("ProbabilityOfPrecipitation", v.get("降雨機率"))
+                try:
+                    rec["pop"] = int(float(raw))
+                except (TypeError, ValueError):
+                    pass
+            elif "溫度" in en and "露點" not in en and "體感" not in en:
+                raw = v.get("Temperature", v.get("溫度"))
+                try:
+                    rec["temp"] = int(round(float(raw)))
+                except (TypeError, ValueError):
+                    pass
+            elif "天氣現象" in en:
+                rec["wx"] = str(v.get("Weather") or v.get("天氣現象") or "")
+    rows = []
+    for t in sorted(series.keys()):
+        dt = _parse_cwa_time(t)
+        if dt and dt < now - timedelta(hours=1):   # 只留現在起的未來時段
+            continue
+        r = series[t]
+        rows.append({"t": t, "pop": r.get("pop"), "temp": r.get("temp"), "wx": r.get("wx", "")})
+    return rows
+
+
 def parse_hourly_3h(recs, now):
-    """從 F-D0047-093（全國各鄉鎮市區未來 3 天，逐 3 小時）整理每縣市一代表鄉鎮的逐 3 小時序列，
+    """從 F-D0047-089（臺灣各縣市未來 3 天，逐 3 小時）整理每縣市的逐 3 小時序列，
     供前端「未來 24 小時」逐時顯示（比 F-C0032-001 的 12 小時分段細）。
     回傳 {'台中市':[{'t':iso,'pop':int|None,'temp':int|None,'wx':str}], ...}（每縣市未來約 2 天）。
-    結構：records.Locations[]（每筆一縣市，LocationsName）→ Location[]（鄉鎮）→ WeatherElement[]。
+    實測結構：records.Locations[0]（LocationsName='台灣'）→ Location[]（22 縣市，LocationName＝縣市名）
+             → WeatherElement[]。若某縣市層下還有子 Location（鄉鎮），取第一個代表。
     欄位大小寫/中英文皆容錯；抓不到或結構不符回 {}（前端自動退回 12 小時分段）。"""
     if not recs:
         return {}
-    locs_list = recs.get("Locations") or recs.get("locations")
-    if isinstance(locs_list, dict):
-        locs_list = [locs_list]
-    if not isinstance(locs_list, list):
+    wrappers = recs.get("Locations") or recs.get("locations")
+    if isinstance(wrappers, dict):
+        wrappers = [wrappers]
+    if not isinstance(wrappers, list):
         return {}
 
     out = {}
-    for county_blk in locs_list:
-        if not isinstance(county_blk, dict):
+    for wrap in wrappers:
+        if not isinstance(wrap, dict):
             continue
-        cname = str(county_blk.get("LocationsName") or county_blk.get("locationsName") or "").strip()
-        cname = cname.replace("臺", "台")
-        towns = county_blk.get("Location") or county_blk.get("location") or []
-        if not isinstance(towns, list) or not towns:
+        areas = wrap.get("Location") or wrap.get("location") or []
+        if not isinstance(areas, list):
             continue
-        pick = towns[0]   # 代表鄉鎮（取第一個；縣市級「未來 24 小時」概覽足夠）
-        elems = pick.get("WeatherElement") or pick.get("weatherElement") or []
-        series = {}
-        for e in elems:
-            en = str(e.get("ElementName") or e.get("elementName") or "")
-            for tm in (e.get("Time") or e.get("time") or []):
-                t = str(tm.get("DataTime") or tm.get("StartTime")
-                        or tm.get("dataTime") or tm.get("startTime") or "")
-                if not t:
-                    continue
-                ev = tm.get("ElementValue") or tm.get("elementValue") or []
-                if isinstance(ev, dict):
-                    ev = [ev]
-                v = ev[0] if ev else {}
-                rec = series.setdefault(t, {})
-                if "降雨機率" in en:
-                    raw = v.get("ProbabilityOfPrecipitation", v.get("降雨機率"))
-                    try:
-                        rec["pop"] = int(float(raw))
-                    except (TypeError, ValueError):
-                        pass
-                elif "溫度" in en and "露點" not in en and "體感" not in en:
-                    raw = v.get("Temperature", v.get("溫度"))
-                    try:
-                        rec["temp"] = int(round(float(raw)))
-                    except (TypeError, ValueError):
-                        pass
-                elif "天氣現象" in en:
-                    rec["wx"] = str(v.get("Weather") or v.get("天氣現象") or "")
-        rows = []
-        for t in sorted(series.keys()):
-            dt = _parse_cwa_time(t)
-            if dt and dt < now - timedelta(hours=1):   # 只留現在起的未來時段
+        for a in areas:                       # 每個 area 即一縣市（LocationName＝縣市名）
+            if not isinstance(a, dict):
                 continue
-            r = series[t]
-            rows.append({"t": t, "pop": r.get("pop"), "temp": r.get("temp"), "wx": r.get("wx", "")})
-        if rows and cname:
-            out[cname] = rows[:16]   # 約 2 天（16×3hr）
+            name = str(a.get("LocationName") or a.get("locationName") or "").strip().replace("臺", "台")
+            if not name:
+                continue
+            # 若此層還有子鄉鎮 Location（含 WeatherElement），取第一個代表；否則本層即含 WeatherElement
+            src = a
+            sub = a.get("Location") or a.get("location")
+            if isinstance(sub, list) and sub and isinstance(sub[0], dict) \
+                    and (sub[0].get("WeatherElement") or sub[0].get("weatherElement")):
+                src = sub[0]
+            rows = _hourly_series(src.get("WeatherElement") or src.get("weatherElement") or [], now)
+            if rows:
+                out[name] = rows[:16]         # 約 2 天（16×3hr）
     return out
 
 
