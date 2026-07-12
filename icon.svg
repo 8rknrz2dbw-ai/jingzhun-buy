@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="精準進貨 App 圖示：蔬果">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#331B3B"/>
-      <stop offset="1" stop-color="#160E1A"/>
+      <stop offset="0" stop-color="#3A2614"/>
+      <stop offset="1" stop-color="#180F0A"/>
     </linearGradient>
     <radialGradient id="glow" cx="0.5" cy="0.30" r="0.72">
-      <stop offset="0" stop-color="#7A3E8C" stop-opacity="0.55"/>
-      <stop offset="1" stop-color="#7A3E8C" stop-opacity="0"/>
+      <stop offset="0" stop-color="#C4762A" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#C4762A" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="apple" x1="0" y1="0" x2="0.2" y2="1">
       <stop offset="0" stop-color="#F0574A"/>
