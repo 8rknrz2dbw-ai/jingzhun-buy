@@ -1,6 +1,6 @@
 {
   "key_set": true,
-  "generated": "2026-07-12T22:14:13.147216+08:00",
+  "generated": "2026-07-12T22:19:25.112464+08:00",
   "W-C0034-001_warning": {
     "info": {
       "__list_len__": 1,
@@ -122,7 +122,7 @@
         "StationId": "str=C1I230",
         "Maintainer": "str=中央氣象署",
         "ObsTime": {
-          "DateTime": "str=2026-07-12T22:00:00+08:00"
+          "DateTime": "str=2026-07-12T22:10:00+08:00"
         },
         "GeoInfo": {
           "Coordinates": {
@@ -160,7 +160,7 @@
             "Precipitation": "str=0.0"
           },
           "Past24hr": {
-            "Precipitation": "str=4.0"
+            "Precipitation": "str=3.5"
           },
           "Past2days": {
             "Precipitation": "str=126.0"
@@ -177,7 +177,7 @@
     "StationId": "A0K420",
     "Maintainer": "中央氣象署",
     "ObsTime": {
-      "DateTime": "2026-07-12T22:00:00+08:00"
+      "DateTime": "2026-07-12T22:10:00+08:00"
     },
     "GeoInfo": {
       "Coordinates": [
@@ -343,5 +343,8 @@
     "金門縣",
     "雲林縣",
     "高雄市"
-  ]
+  ],
+  "F-D0047-093_hourly": "NoneType=None",
+  "F-D0047-093_counties_parsed": [],
+  "F-D0047-093_taichung_sample": []
 }
