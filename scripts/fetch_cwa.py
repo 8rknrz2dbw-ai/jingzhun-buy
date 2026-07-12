@@ -3,8 +3,8 @@
 """
 fetch_cwa.py  ——  中央氣象署 (CWA) 開放資料抓取 → 快取 JSON（v1 skeleton）
 
-從 CWA 開放資料平臺抓取颱風警報／路徑潛勢／侵襲機率／雨量，整理成
-build_advisory.py 需要的 typhoon_status.json，以及原始快取 rainfall_now.json。
+從 CWA 開放資料平臺抓取颱風警報／路徑潛勢／侵襲機率／雨量，整理成前端需要的
+typhoon_status.json、weather_events.json、weather_forecast.json。
 
 ⚠ 金鑰只放後端環境變數 CWA_API_KEY，前端永遠不觸碰。
 ⚠ 部分資料集的實際 JSON 欄位路徑需以真實回應驗證（見各 parse_* 的 TODO）；

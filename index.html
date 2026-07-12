@@ -4,10 +4,10 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
 <title>精準進貨</title>
-<link rel="icon" type="image/svg+xml" href="icon.svg" />
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
 <link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#12160E" />
+<meta name="theme-color" content="#1C130F" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -18,9 +18,11 @@
   :root[data-fs="s"]{ font-size:16px; } :root[data-fs="m"]{ font-size:19px; }
   :root[data-fs="l"]{ font-size:23px; } :root[data-fs="xl"]{ font-size:28px; }
   :root{
-    --bg:#12160E; --panel:#1B2015; --panel2:#232A1B; --line:#313A22;
-    --leaf:#A6C955; --leaf-dim:#6E8F3C; --paper:#EFEAD8; --muted:#9aa27a;
-    --g:#7CC24A; --y:#F2B705; --o:#E8862E; --r:#E4572E; --cool:#6FB0A6;
+    /* 精準進貨（商人版）水果配色：芒果橘主色＋深暖底，與精準務農綠色系做區別；
+       漲跌沿用 西瓜紅(貴)/奇異果綠(便宜)/香蕉黃(持平) 水果語意色 */
+    --bg:#1C130F; --panel:#271A13; --panel2:#33241A; --line:#45321F;
+    --leaf:#FF9A2E; --leaf-dim:#B86718; --paper:#F6ECE0; --muted:#B39C86;
+    --g:#7CC24A; --y:#F2B705; --o:#E8862E; --r:#E4572E; --cool:#5FB4D6;
     --radius:16px;
   }
   *{box-sizing:border-box;}
@@ -37,9 +39,9 @@
 
   header{display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;padding-bottom:0.7rem;border-bottom:1px solid var(--line);}
   header h1{font-size:1.6rem;font-weight:900;margin:0;letter-spacing:3px;line-height:1.1;
-    background:linear-gradient(96deg,#6DB33F 0%,#E4F4A8 28%,#7FD0C4 58%,#6DB33F 100%);background-size:220% 100%;
+    background:linear-gradient(96deg,#FFC24A 0%,#FF9A2E 32%,#FF6F3C 66%,#FFC24A 100%);background-size:220% 100%;
     -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
-    filter:drop-shadow(0 1px 6px rgba(124,194,74,.5));animation:hsheen 7s linear infinite;}
+    filter:drop-shadow(0 1px 6px rgba(255,154,46,.5));animation:hsheen 7s linear infinite;}
   @keyframes hsheen{to{background-position:220% 0;}}
   .gear{background:var(--panel2);border:1px solid var(--line);color:var(--paper);
     width:2.4rem;height:2.4rem;border-radius:50%;font-size:1.2rem;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
@@ -48,25 +50,9 @@
   header.slim{gap:0.5rem;padding-top:0.1rem;justify-content:flex-start;}
   header.slim .gear{margin-left:auto;}
   .hright{display:flex;align-items:center;gap:0.5rem;flex:0 0 auto;}
-  /* 首次啟動：身分選擇（獨立介面） */
-  .onboard{position:fixed;inset:0;z-index:100;background:var(--bg);display:none;align-items:center;justify-content:center;
-    padding:calc(1.2rem + env(safe-area-inset-top)) 1.3rem calc(1.2rem + env(safe-area-inset-bottom));}
-  .onboard.on{display:flex;}
-  .onbox{width:100%;max-width:440px;text-align:center;}
-  .onlogo{font-size:2.6rem;font-weight:900;letter-spacing:4px;margin-bottom:0.35rem;line-height:1.1;
-    background:linear-gradient(96deg,#6DB33F 0%,#E4F4A8 28%,#7FD0C4 58%,#6DB33F 100%);
-    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
-    filter:drop-shadow(0 1px 6px rgba(124,194,74,.5));}
-  .onsub{color:var(--muted);font-size:0.9rem;margin:0 0 1.5rem;}
-  .oncard{display:flex;flex-direction:column;align-items:center;gap:0.35rem;width:100%;color:var(--paper);
-    background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:1.5rem 1rem;margin-bottom:1rem;}
-  .oncard:active{background:var(--panel2);border-color:var(--leaf-dim);}
-  .oncard .onemoji{font-size:2.7rem;line-height:1;}
-  .oncard .ontitle{font-size:1.45rem;font-weight:900;letter-spacing:2px;}
-  .oncard .ondesc{font-size:0.85rem;color:var(--muted);}
   .badge{padding:0.15rem 0.55rem;border-radius:999px;font-size:0.7rem;font-weight:700;border:1px solid var(--line);white-space:nowrap;}
   .badge.demo{color:var(--y);border-color:#5a4d13;background:#231d07;}
-  .badge.live{color:var(--leaf);border-color:#2f4a1c;background:#182312;}
+  .badge.live{color:var(--g);border-color:#2f5a2a;background:#152a17;}
 
   .tabs{display:flex;gap:0.4rem;margin:0.9rem 0;}
   .tab{flex:1;background:transparent;border:1px solid var(--line);color:var(--muted);
@@ -134,7 +120,7 @@
   /* 查價線標籤（右側價格、底部日期），用 HTML 疊在圖上避免 SVG 拉伸變形 */
   .axlabel{position:absolute;font-size:0.72rem;font-weight:800;padding:0.05rem 0.35rem;border-radius:6px;
     pointer-events:none;white-space:nowrap;z-index:2;display:none;}
-  .axlabel.px{background:var(--paper);color:#12160E;right:2px;transform:translateY(-50%);}
+  .axlabel.px{background:var(--paper);color:#1C130F;right:2px;transform:translateY(-50%);}
   .axlabel.dt{background:var(--panel2);color:var(--paper);border:1px solid var(--line);bottom:0;transform:translateX(-50%);}
   /* Y 軸最高/最低價刻度（隨公斤/台斤切換），常顯 */
   .axlabel.axmax,.axlabel.axmin{display:block;background:rgba(18,22,14,.7);color:var(--muted);font-weight:700;font-size:0.66rem;right:2px;}
@@ -246,7 +232,7 @@
   .annobox>summary::before{content:"▸ ";} .annobox[open]>summary::before{content:"▾ ";}
   /* 角色買賣價註記 */
   .rolenote{margin-top:0.4rem;font-size:0.8rem;color:var(--muted);}
-  .rolenote b{color:var(--paper);} .rolenote.farmer b{color:var(--leaf);} .rolenote.merchant b{color:var(--o);}
+  .rolenote b{color:var(--paper);} .rolenote.merchant b{color:var(--o);}
   /* 全品種行情（可折疊） */
   .varbox{margin-top:0.5rem;} .varbox>summary{cursor:pointer;font-size:0.82rem;color:var(--muted);font-weight:800;list-style:none;padding:0.35rem 0;}
   .varbox>summary::-webkit-details-marker{display:none;} .varbox>summary::before{content:"▸ ";} .varbox[open]>summary::before{content:"▾ ";}
@@ -265,7 +251,7 @@
   .chip.on{background:var(--leaf-dim);color:var(--bg);border-color:var(--leaf-dim);font-weight:800;}
   .chip input{width:1.05rem;height:1.05rem;accent-color:var(--leaf);margin:0;}
 
-  /* 田區搶收 */
+  /* 颱風/豪雨警戒卡 */
   .alert{border:1px solid #5a2c1f;border-radius:var(--radius);
     background:linear-gradient(90deg,rgba(228,87,46,.18),rgba(228,87,46,.05) 60%,transparent);
     padding:0.9rem 1rem;display:flex;flex-wrap:wrap;align-items:center;gap:0.3rem 1rem;margin-bottom:0.9rem;}
@@ -280,7 +266,7 @@
   @keyframes rflash{0%,100%{background:linear-gradient(90deg,rgba(59,125,216,.20),rgba(59,125,216,.05) 60%,transparent);border-color:#26506e;}
     50%{background:linear-gradient(90deg,rgba(59,125,216,.42),rgba(59,125,216,.12) 55%,transparent);border-color:#3f79c9;}}
   .alert.rain .ticon{filter:drop-shadow(0 0 7px rgba(59,125,216,.6));}
-  .alert.calm{border-color:#2f4a1c;background:linear-gradient(90deg,rgba(124,194,74,.14),transparent 60%);}
+  .alert.calm{border-color:#3a5a2a;background:linear-gradient(90deg,rgba(124,194,74,.13),transparent 60%);}
   .alert.track{border-color:#5a4d13;background:linear-gradient(90deg,rgba(242,183,5,.14),transparent 60%);}
   .alert.track .ticon{filter:drop-shadow(0 0 6px rgba(242,183,5,.5));}
   .alert.track .big b{color:var(--y);}
@@ -311,7 +297,7 @@
     text-decoration:none;font-weight:800;padding:0.6rem 0.7rem;border-radius:12px;font-size:0.9rem;}
   .tyfoot{font-size:0.72rem;color:var(--muted);margin:0.6rem 0 0;}
   .tynote{background:var(--panel2);border:1px dashed var(--line);border-radius:12px;padding:0.9rem;color:var(--muted);font-size:0.85rem;}
-  /* 天氣建議卡（商人擺攤指數／農夫農事時段） */
+  /* 天氣建議卡（擺攤指數） */
   .wadv{background:linear-gradient(180deg,rgba(111,176,166,.12),transparent);border:1px solid var(--line);border-left:4px solid var(--cool);
     border-radius:14px;padding:0.8rem 0.9rem;margin-bottom:0.8rem;}
   .wadv-h{font-weight:900;font-size:1rem;margin-bottom:0.35rem;} .wadv-h b.up{color:var(--g);} .wadv-h b.mid{color:var(--y);} .wadv-h b.dn{color:var(--r);}
@@ -324,58 +310,12 @@
   .fcslot .fcwx{display:block;font-size:1.35rem;line-height:1.6;}
   .fcslot .fcpop{display:block;font-size:0.82rem;font-weight:900;color:#bcd8ff;}
   .fcslot .fctemp{display:block;font-size:0.72rem;color:var(--muted);margin-top:0.1rem;}
-  /* 推薦播種 + 產量收入試算 */
-  .pa-sec{margin-top:1.4rem;border-top:1px solid var(--line);padding-top:1rem;}
-  .pa-h{font-size:1.15rem;font-weight:900;margin:0 0 0.6rem;}
-  .pa-info{font-size:0.85rem;color:var(--muted);margin:0.3rem 0 0.7rem;} .pa-info b{color:var(--paper);}
-  .pacard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:0.8rem 0.9rem;margin-bottom:0.6rem;}
-  .pacard.best{border-color:var(--leaf-dim);background:var(--panel2);}
-  .pa-top{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;}
-  .pa-rk{width:1.5rem;height:1.5rem;flex:0 0 auto;border-radius:50%;background:var(--panel2);border:1px solid var(--line);color:var(--muted);font-weight:900;font-size:0.8rem;display:flex;align-items:center;justify-content:center;}
-  .pacard.best .pa-rk{background:var(--leaf);color:var(--bg);border-color:var(--leaf);}
-  .pa-nm{font-size:1.3rem;font-weight:900;}
-  .pa-badge{font-size:0.68rem;font-weight:800;color:#0e1a08;background:var(--g);padding:0.12rem 0.5rem;border-radius:999px;}
-  .pa-typ{font-size:0.68rem;font-weight:800;color:#F6C6B4;background:rgba(228,87,46,.16);border:1px solid rgba(228,87,46,.4);padding:0.1rem 0.45rem;border-radius:999px;}
-  .pa-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 0.8rem;}
-  .pa-grid>div{display:flex;align-items:baseline;gap:0.3rem;flex-wrap:wrap;}
-  .pa-k{font-size:0.75rem;color:var(--muted);min-width:4.2rem;}
-  .pa-grid b{font-size:1.15rem;font-weight:900;} .pa-s{font-size:0.7rem;color:var(--muted);}
-  .pa-rev{color:var(--leaf);}
-
-  .cards{display:flex;flex-direction:column;gap:0.7rem;}
-  .fcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:0.9rem;position:relative;overflow:hidden;}
-  .fcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--dec,var(--muted));}
-  .fcard.dec-r{--dec:var(--r)} .fcard.dec-o{--dec:var(--o)} .fcard.dec-y{--dec:var(--y)} .fcard.dec-g{--dec:var(--g)}
-  .fcard .ctop{display:flex;align-items:baseline;gap:0.5rem;flex-wrap:wrap;}
-  .fcard .cid{font-size:1.1rem;font-weight:800;} .fcard .cid small{color:var(--muted);font-weight:400;font-size:0.75rem;}
-  .fcard .pill{margin-left:auto;font-size:0.85rem;font-weight:800;padding:0.25rem 0.7rem;border-radius:999px;color:#12160E;background:var(--dec);white-space:nowrap;}
-  .fcard .pill.dec-y{color:#2a2306;}
-  .fcard .line{font-size:0.85rem;color:var(--muted);margin-top:0.4rem;}
-  .fcard .line b.hi{color:var(--r);} .fcard .line b.mid{color:var(--o);} .fcard .line b.lo{color:var(--g);} .fcard .line b{color:var(--paper);}
-  .count{margin-top:0.6rem;border:1px solid var(--line);border-radius:12px;padding:0.6rem 0.7rem;background:var(--panel2);}
-  .count .cl{font-size:0.72rem;color:var(--muted);} .count .cd{font-size:1.8rem;font-weight:900;line-height:1.1;}
-  .count.soon .cd{color:var(--r);animation:blink 1.1s steps(2,jump-none) infinite;}
-  .count .cn{font-size:0.72rem;color:var(--muted);margin-top:0.15rem;} .count.none .cd{font-size:1rem;color:var(--muted);font-weight:700;}
-  @keyframes blink{50%{opacity:.45}}
-  .dilemma{margin-top:0.6rem;border:1px solid #6a5410;background:#241d06;border-radius:12px;padding:0.6rem 0.7rem;}
-  .dilemma .dh{color:var(--y);font-weight:800;font-size:0.9rem;} .dilemma .dt{font-size:0.8rem;color:#e7dcb4;margin-top:0.25rem;}
-  .oppo{margin-top:0.6rem;border:1px solid #2f4a4a;background:#0e1a1a;border-radius:12px;padding:0.6rem 0.7rem;}
-  .oppo .oh{color:var(--cool);font-weight:800;font-size:0.9rem;} .oppo .ot{font-size:0.8rem;color:#cfe3df;margin-top:0.25rem;}
-
-  /* 採收預判 */
+  /* 表單（跨市場比價選單） */
   .form{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:1rem;display:flex;flex-direction:column;gap:0.8rem;}
   .form label{font-size:0.85rem;color:var(--muted);display:block;margin-bottom:0.3rem;}
   .form input,.form select{width:100%;box-sizing:border-box;min-width:0;background:var(--panel2);border:1px solid var(--line);color:var(--paper);padding:0.6rem 0.7rem;border-radius:12px;font-size:1rem;}
   .form input[type=date]{-webkit-appearance:none;appearance:none;}
-  .form .go{background:var(--leaf);color:var(--bg);border:0;border-radius:12px;padding:0.7rem;font-size:1.05rem;font-weight:800;}
   .cmpform{flex-direction:row;gap:0.6rem;} .cmpform select{flex:1;}
-  .fcresult{margin-top:0.9rem;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:1rem;}
-  .fcresult h3{margin:0 0 0.4rem;font-size:1.1rem;}
-  .fcresult .band{font-size:2rem;font-weight:900;} .fcresult .band .u{font-size:0.75rem;color:var(--muted);font-weight:400;}
-  .fcresult .row{font-size:0.9rem;color:var(--muted);margin-top:0.4rem;} .fcresult .row b{color:var(--paper);}
-  .fcresult .risk{margin-top:0.6rem;border-radius:12px;padding:0.6rem 0.7rem;font-size:0.85rem;}
-  .fcresult .risk.warn{border:1px solid #6a5410;background:#241d06;color:#e7dcb4;}
-  .fcresult .risk.ok{border:1px solid #2f4a1c;background:#182312;color:#d7e6bf;}
 
   .foot{margin-top:1.6rem;color:var(--muted);font-size:0.72rem;line-height:1.7;border-top:1px solid var(--line);padding-top:0.9rem;}
 
@@ -394,49 +334,19 @@
   .fsrow button{flex:1;background:var(--panel2);border:1px solid var(--line);color:var(--paper);padding:0.6rem 0.3rem;border-radius:12px;font-weight:800;}
   .fsrow button[data-v="s"]{font-size:0.85rem;} .fsrow button[data-v="m"]{font-size:1rem;} .fsrow button[data-v="l"]{font-size:1.2rem;} .fsrow button[data-v="xl"]{font-size:1.45rem;}
   .fsrow button.on{background:var(--leaf);color:var(--bg);border-color:var(--leaf);}
-  /* 角色按鈕：放大圖示與文字（年長者易點） */
-  .rolerow{gap:0.6rem;}
-  .rolerow button{display:flex;flex-direction:column;align-items:center;gap:0.2rem;padding:0.9rem 0.4rem;font-size:1.15rem;line-height:1.2;border-radius:14px;}
-  .rolerow button .ico{font-size:2.1rem;line-height:1;}
   select.mkt{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--paper);padding:0.65rem 0.7rem;border-radius:12px;font-size:1rem;}
-  .listrow{display:flex;align-items:center;gap:0.6rem;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:0.55rem 0.7rem;margin-bottom:0.45rem;flex-wrap:wrap;}
-  .listrow .wn{font-weight:700;font-size:0.98rem;} .listrow .ws{font-size:0.72rem;color:var(--muted);width:100%;}
-  .listrow .sp{margin-left:auto;display:flex;gap:0.4rem;}
-  .listrow .rm{background:transparent;border:1px solid #5a2c1f;color:var(--r);border-radius:999px;padding:0.2rem 0.7rem;font-size:0.8rem;font-weight:800;}
-  .listrow .ed{background:transparent;border:1px solid var(--line);color:var(--paper);border-radius:999px;padding:0.2rem 0.7rem;font-size:0.8rem;font-weight:800;}
-  .addrow{display:flex;gap:0.5rem;margin-top:0.5rem;flex-wrap:wrap;}
-  .addrow select{flex:1;min-width:8rem;background:var(--panel2);border:1px solid var(--line);color:var(--paper);padding:0.55rem 0.6rem;border-radius:12px;font-size:0.95rem;}
-  .addrow button{background:var(--leaf);color:var(--bg);border:0;border-radius:12px;padding:0.55rem 1rem;font-weight:800;}
-  .addrow button:disabled{opacity:.4;}
-  .fieldform{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:0.7rem;margin-top:0.5rem;display:none;flex-direction:column;gap:0.55rem;}
-  .fieldform.on{display:flex;}
-  .fieldform label{font-size:0.78rem;color:var(--muted);}
-  .fieldform input,.fieldform select{width:100%;min-width:0;box-sizing:border-box;background:var(--panel);border:1px solid var(--line);color:var(--paper);padding:0.5rem 0.6rem;border-radius:10px;font-size:0.95rem;}
-  .fieldform input[type=date]{-webkit-appearance:none;appearance:none;}
-  .fieldform .frow{display:flex;gap:0.5rem;} .fieldform .frow>div{flex:1;min-width:0;}
-  .fieldform .save{background:var(--leaf);color:var(--bg);border:0;border-radius:10px;padding:0.6rem;font-weight:800;}
-  .gpsbtn{width:100%;background:var(--panel);border:1px solid var(--leaf-dim);color:var(--leaf);border-radius:10px;padding:0.5rem;font-weight:700;margin-top:0.35rem;}
-  .gearth{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:0.7rem 0.85rem;margin-top:0.3rem;}
-  .gearth-h{font-weight:800;font-size:0.85rem;color:var(--paper);margin-bottom:0.4rem;}
-  .gearth-steps{margin:0;padding-left:1.2rem;font-size:0.8rem;color:var(--muted);line-height:1.7;}
-  .gearth-steps b{color:var(--paper);}
-  .gearth-btn{display:block;text-align:center;margin-top:0.6rem;background:var(--panel);border:1px solid var(--leaf-dim);
-    color:var(--leaf);border-radius:10px;padding:0.5rem;font-weight:800;text-decoration:none;}
-  .gearth-btn:active{background:var(--leaf-dim);color:var(--bg);}
-  .gearth-tip{font-size:0.72rem;color:var(--muted);margin:0.5rem 0 0;line-height:1.6;}
-  .gearth-tip b{color:var(--paper);}
-  .fieldform a{color:var(--leaf);}
   .hintline{font-size:0.74rem;color:var(--muted);margin-top:0.5rem;line-height:1.6;}
-  .ver{color:#5a6146;font-size:0.7rem;text-align:center;margin-top:1.5rem;letter-spacing:.5px;}
-  .addbtn{width:100%;background:transparent;border:1px dashed var(--leaf-dim);color:var(--leaf);border-radius:12px;padding:0.6rem;font-weight:800;margin-top:0.3rem;}
+  .ver{color:#6a5a68;font-size:0.7rem;text-align:center;margin-top:1.5rem;letter-spacing:.5px;}
   /* 關於 App（上架用） */
   .foldh{width:100%;display:flex;align-items:center;justify-content:space-between;background:var(--panel2);border:1px solid var(--line);
     color:var(--paper);border-radius:12px;padding:0.75rem 0.9rem;font-size:0.95rem;font-weight:700;}
   .foldh:active{background:var(--panel);}
   .foldh .foldi{color:var(--muted);transition:transform .2s;} .foldh[aria-expanded="true"] .foldi{transform:rotate(90deg);}
   .foldbody{margin-top:0.6rem;}
-  .aboutcard{background:linear-gradient(135deg,#1f2716,#181d12);border:1px solid var(--line);border-radius:16px;padding:1rem;text-align:center;margin-bottom:0.6rem;}
-  .aboutcard .alogo{font-size:1.5rem;font-weight:900;color:var(--leaf);letter-spacing:2px;}
+  .aboutcard{background:linear-gradient(135deg,#2c1d12,#20140d);border:1px solid var(--line);border-radius:16px;padding:1rem;text-align:center;margin-bottom:0.6rem;}
+  .aboutcard .alogo{font-size:1.5rem;font-weight:900;letter-spacing:2px;
+    background:linear-gradient(96deg,#FFC24A 0%,#FF9A2E 32%,#FF6F3C 66%,#FFC24A 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
   .aboutcard .atag{font-size:0.78rem;color:var(--muted);margin-top:0.2rem;line-height:1.5;}
   .aver{display:table;margin:0.8rem auto 0.2rem;font-size:0.72rem;color:var(--muted);background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:0.2rem 0.8rem;}
   .about{display:flex;flex-direction:column;gap:0.4rem;}
@@ -467,8 +377,6 @@
 
   <nav class="tabs">
     <button class="tab on" data-t="market">行情看板</button>
-    <button class="tab" data-t="forecast">採收預判</button>
-    <button class="tab" data-t="harvest">田區搶收</button>
     <button class="tab" data-t="compare" style="display:none">跨市場比價</button>
   </nav>
 
@@ -492,12 +400,6 @@
     <div id="mktDetail" style="display:none"></div>
   </div>
 
-  <div class="view" id="view-harvest">
-    <div class="alert" id="hAlert"></div>
-    <div id="wAdvice"></div>
-    <div class="cards" id="hCards"></div>
-  </div>
-
   <div class="view" id="view-compare">
     <p class="mkt-label">比全台各市場批發價（低→高，適合進貨）</p>
     <div class="catbar" id="cmpCat"></div>
@@ -506,27 +408,6 @@
       <select id="cmpVar" style="display:none"></select>
     </div>
     <div id="cmpResult"></div>
-  </div>
-
-  <div class="view" id="view-forecast">
-    <div class="form">
-      <div><label>作物</label><select id="fcCrop"></select></div>
-      <div><label>種植日（或已種的定植日）</label><input type="date" id="fcDate"></div>
-      <button class="go" id="fcGo">預估採收期價格</button>
-    </div>
-    <div id="fcResult"></div>
-    <p class="hintline">用近一年同期的實際行情推估採收時的價格區間，並提示颱風季風險。資料越多越準。</p>
-
-    <div class="pa-sec">
-      <h3 class="pa-h">🌱 本季推薦種植 · 產量收入試算</h3>
-      <div class="form" style="padding:0.7rem">
-        <div><label>選擇田區試算（面積取自你登記的田）</label><select id="paField"></select></div>
-        <div><label>預計種植日</label><input type="date" id="paDate"></div>
-      </div>
-      <div id="paResult"></div>
-      <p class="hintline">依「田面積 × 可種比例 × 季節」估各作物採收量，再用近兩年同期行情推估價格與收入，依<b>預估收入</b>排序。
-        產量係數與生育日數已參考農業部農情調查／各區農改場資料校準，仍屬<b>估算值</b>，實際依品種/管理/天候而異。</p>
-    </div>
   </div>
 
   <p class="foot">
@@ -557,15 +438,7 @@
   <div class="sheet" role="dialog" aria-label="設定">
     <h2>設定 <button class="close" id="closeSet" aria-label="關閉">✕</button></h2>
 
-    <div class="setcat">顯示與身分</div>
-    <div class="setblk"><h4>角色</h4>
-      <div class="fsrow rolerow" id="roleRow">
-        <button data-r="farmer"><span class="ico">🧑‍🌾</span><span>蔬果農</span></button>
-        <button data-r="merchant"><span class="ico">🧺</span><span>商人</span></button>
-      </div>
-      <p class="hintline" id="roleHint"></p>
-    </div>
-
+    <div class="setcat">顯示設定</div>
     <div class="setblk"><h4>字體大小</h4>
       <div class="fsrow" id="fsRow">
         <button data-v="s">小</button><button data-v="m">中</button><button data-v="l">大</button><button data-v="xl">特大</button>
@@ -579,64 +452,15 @@
       <div class="croppick" id="cropPick"></div>
     </div>
 
-    <div class="setcat">天氣與田區</div>
+    <div class="setcat">天氣</div>
     <div class="setblk"><h4>天氣預報地區（全國）</h4>
       <select class="mkt" id="regionSelect"></select>
-      <p class="hintline">選你所在縣市，天氣預報／擺攤指數／農事建議依此顯示。農夫若有填座標的田，會自動以田所在縣市為準。</p>
-    </div>
-
-    <div class="setblk"><h4>我的田區（搶收/採收用）</h4>
-      <div id="fieldList"></div>
-      <button class="addbtn" id="fieldAddBtn">＋ 新增一塊田</button>
-      <div class="fieldform" id="fieldForm">
-        <div><label>田區名稱</label><input id="ffName" placeholder="例：A12 溪底田"></div>
-        <div><label>作物</label><select id="ffCrop"></select></div>
-        <div class="frow">
-          <div><label>播種/定植日</label><input type="date" id="ffPlant"></div>
-          <div><label>地勢淹水等級（海拔參考見下）</label><select id="ffFlood">
-            <option value="1">1 高亢·排水好（比周邊高／坡地）</option><option value="2">2 偏高（略高於周邊）</option>
-            <option value="3">3 一般（與周邊相當·平原農地）</option><option value="4" selected>4 偏低窪（略低於周邊·近溝渠）</option><option value="5">5 低窪易淹（明顯低窪·近河口/沿海）</option>
-          </select></div>
-        </div>
-        <p class="hintline">📏 海拔參考：用 Google Earth 讀「你這塊田」與「周邊農地/道路」的海拔——比周邊<b>低就偏 4~5 級</b>、
-          差不多是 <b>3 級</b>、明顯高就 <b>1~2 級</b>。淹水看的是「相對低窪」，不是絕對海拔高低。</p>
-        <div class="frow">
-          <div><label>最後施藥日（可空）</label><input type="date" id="ffSpray"></div>
-          <div><label>農藥安全期天數(PHI)</label><input type="number" id="ffPhi" min="0" placeholder="例：7"></div>
-        </div>
-        <p class="hintline">⚠ PHI 是「該支農藥×該作物」的法規登記值（同種菜不同藥天數不同），<b>不可臆填</b>。
-          查你實際用的藥：<a href="https://m.moa.gov.tw/Pesticide/Index" target="_blank" rel="noopener">田邊好幫手</a>
-          ・<a href="https://pesticide.aphia.gov.tw/information/Query/Pesticide" target="_blank" rel="noopener">農藥資訊服務網</a></p>
-        <div class="frow">
-          <div><label>田區面積（推薦播種/產量試算用）</label>
-            <div class="frow"><input type="number" id="ffAreaVal" min="0" step="0.1" placeholder="例：50" inputmode="decimal">
-              <select id="ffAreaUnit"><option value="ping">坪</option><option value="fen">分</option><option value="m2">㎡</option></select></div></div>
-          <div><label>可種比例%（扣走道，預設80）</label><input type="number" id="ffUsable" min="10" max="100" placeholder="80" inputmode="numeric"></div>
-        </div>
-        <div class="gearth">
-          <div class="gearth-h">📐 不知道幾坪？用 Google Earth 量（免費、準）</div>
-          <ol class="gearth-steps">
-            <li>開 Google Earth，點左側工具列「<b>測量</b>」📏</li>
-            <li>沿著田的邊界<b>點一圈</b>回到起點</li>
-            <li>讀它顯示的「<b>面積 ○○ 平方公尺</b>」</li>
-            <li>回到這裡：單位切「<b>㎡</b>」，把數字填進「田區面積」</li>
-          </ol>
-          <a class="gearth-btn" href="https://earth.google.com/web/" target="_blank" rel="noopener">🌍 開啟 Google Earth 量田</a>
-          <p class="gearth-tip">Earth 也會給「海拔」高低，可對照設你的<b>地勢淹水等級</b>（低窪處易積水）。</p>
-        </div>
-        <div><label>田區座標（GPS，供淹水潛勢查詢；可空）</label>
-          <div class="frow"><input id="ffLat" placeholder="緯度 lat" inputmode="decimal"><input id="ffLng" placeholder="經度 lng" inputmode="decimal"></div>
-          <button type="button" class="gpsbtn" id="ffGeo">📍 用目前位置（站在田裡按）</button>
-          <p class="hintline" id="ffArea"></p>
-          <p class="hintline">填了座標可到 <a href="https://dmap.ncdr.nat.gov.tw/" target="_blank" rel="noopener">NCDR 災害潛勢地圖</a> 查你這點的淹水潛勢，回來設對應等級。</p></div>
-        <button class="save" id="ffSave">儲存這塊田</button>
-      </div>
-      <p class="hintline">田區存在你手機，隨時增刪、改地勢立即生效。</p>
+      <p class="hintline">選你所在縣市，天氣預報／擺攤指數／颱風侵襲率依此顯示。</p>
     </div>
 
     <div class="setcat">資料備份／換手機</div>
     <div class="setblk">
-      <p class="hintline" style="margin-top:0">把田區、設定、關注品項匯出成<b>一個檔案</b>（.json，安卓/iOS 都讀得到）。換手機或備份時再匯入還原。</p>
+      <p class="hintline" style="margin-top:0">把設定、關注品項匯出成<b>一個檔案</b>（.json，安卓/iOS 都讀得到）。換手機或備份時再匯入還原。</p>
       <div class="about">
         <button class="arow" id="dataExport"><span class="aico">📤</span><span class="alab">匯出備份檔</span><span class="achev">›</span></button>
         <button class="arow" id="dataImport"><span class="aico">📥</span><span class="alab">從備份檔匯入</span><span class="achev">›</span></button>
@@ -690,26 +514,13 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<div class="onboard" id="onboard">
-  <div class="onbox">
-    <div class="onlogo">精準進貨</div>
-    <p class="onsub">先選你的身分，開始使用（之後可在右上 ⚙️ 更改）</p>
-    <button class="oncard" data-r="farmer">
-      <span class="onemoji">🧑‍🌾</span><span class="ontitle">蔬果農夫</span>
-      <span class="ondesc">看行情＋田區搶收＋採收預判</span></button>
-    <button class="oncard" data-r="merchant">
-      <span class="onemoji">🧺</span><span class="ontitle">商人</span>
-      <span class="ondesc">看批發行情＋跨市場比價找便宜進貨</span></button>
-  </div>
-</div>
-
 <script>
 /* ══════ 基礎 ══════ */
-const VERSION="v1.0.0";
-/* 單一身分 App：farmer＝精準務農（行情＋田區搶收＋採收預判）；merchant＝精準進貨（批發行情＋跨市場比價）。
-   同一份程式碼，改這兩個常數即可切換另一支 App；角色固定、不再讓使用者切換。 */
+const VERSION="v1.1.0";
+/* 精準進貨（商人版）：批發行情＋跨市場比價找便宜進貨。此 repo 已為商人版專用，
+   農夫版（精準務農）田區搶收/採收預判相關程式與資料已移除。 */
 const APP="merchant";
-const APP_NAME=APP==="merchant"?"精準進貨":"精準務農";
+const APP_NAME="精準進貨";
 function resolveGhBase(){const {origin,pathname,hostname}=location;
   if(hostname.endsWith("github.io")){const s=pathname.split("/").filter(Boolean);return origin+(s.length?"/"+s[0]:"");}return ".";}
 function doyOf(iso){const [Y,M,D]=iso.split("-").map(Number);return Math.floor((Date.UTC(Y,M-1,D)-Date.UTC(Y,0,0))/86400000);}
@@ -723,74 +534,22 @@ function addDaysISO(iso,n){const [Y,M,D]=iso.split("-").map(Number);const d=new 
   return d.getUTCFullYear()+"-"+pad(d.getUTCMonth()+1)+"-"+pad(d.getUTCDate());}
 function daysBetween(a,b){return (Date.parse(b+"T00:00:00Z")-Date.parse(a+"T00:00:00Z"))/86400000;}
 
-/* ══════ 作物農藝參數 ══════ */
-/* 生育日數[夏,冬]（播種/定植→採收）；已依農業部農業知識入口網/各區農改場資料校準（估算，實際依品種/氣候而異） */
-const GROWTH={青江菜:[33,45],青江白菜:[33,45],小白菜:[25,35],芥藍菜:[50,62],菠菜:[38,45],空心菜:[20,32],蕹菜:[20,32],
-  地瓜葉:[35,45],莧菜:[35,45],茼蒿:[40,50],油菜:[32,42],"萵苣(A菜)":[30,42],芥菜:[55,65],甘藍:[70,90],包心白菜:[60,80]};
-const MAT_MIN={青江菜:.75,小白菜:.7,芥藍菜:.75,菠菜:.75,空心菜:.7,地瓜葉:.7,莧菜:.7,茼蒿:.72,油菜:.72,"萵苣(A菜)":.75,芥菜:.75};
-const V_CROP={青江菜:.95,小白菜:.95,芥藍菜:.8,菠菜:.85,空心菜:.7,地瓜葉:.65,莧菜:.85,茼蒿:.85,油菜:.85,"萵苣(A菜)":.9,芥菜:.8};
-const FLOOD_ADV={1:0,2:0,3:12,4:18,5:24};
-function isSummer(iso){const m=+iso.split("-")[1];return m>=5&&m<=10;}
-function growthDays(crop,plantISO){const g=GROWTH[crop]||[35,45];return isSummer(plantISO)?g[0]:g[1];}
-function cropList(){return Object.keys(GROWTH);}
-/* ── 推薦播種＋產量試算：每㎡單次採收概略產量(kg)。有查到官方統計者已校準(菠菜/甘藍/包心白菜/
-   空心菜取農業部農情調查·農糧署年報之田間或平均單產÷面積推估)，其餘為量級估算值、實際依品種/管理/天候而異 ── */
-const YIELD_M2={青江菜:2.5,青江白菜:2.5,小白菜:2.2,菠菜:2.5,芥藍菜:3.0,空心菜:2.2,蕹菜:2.2,油菜:2.2,
-  莧菜:2.2,茼蒿:1.8,"萵苣(A菜)":2.5,芥菜:3.2,地瓜葉:2.5,甘藍:5.5,包心白菜:4.5};
-/* App 作物名 → 農業部「生產概況」實際作物類別名（已對 UnitId=113/135 回應校準）。
-   概況把 小白菜/青江=「不結球白菜」、包心白=「結球白菜」、空心菜=「甕菜」、芥菜=「大芥菜」；
-   菠菜/茼蒿/莧菜/油菜/芥藍/萵苣未個別列(併入「其他葉菜類」混合)→候選查無、退回內建估算值。 */
-const YIELD_ALIAS={甘藍:["甘藍","高麗菜"],包心白菜:["結球白菜","包心白菜","大白菜"],
-  小白菜:["不結球白菜","小白菜"],青江菜:["不結球白菜","青江白菜","青江菜"],青江白菜:["不結球白菜","青江白菜"],
-  蕹菜:["甕菜","蕹菜","空心菜"],空心菜:["甕菜","蕹菜","空心菜"],芥菜:["大芥菜","芥菜"],
-  菠菜:["菠菜"],莧菜:["莧菜"],茼蒿:["茼蒿"],油菜:["油菜"],芥藍菜:["芥藍","芥藍菜"],"萵苣(A菜)":["萵苣","萵苣菜"],地瓜葉:["甘藷葉","地瓜葉"],
-  芒果:["芒果"],鳳梨:["鳳梨"],香蕉:["香蕉"],西瓜:["西瓜"],木瓜:["木瓜"]};
-/* 逐縣市真實單產(kg/㎡)：所在縣市優先 → 全國平均 → 內建估算值。回 {v, real} */
-function yieldInfo(c){
-  const cands=YIELD_ALIAS[c]||[c];
-  if(YIELDDATA){const cty=(typeof activeCounty==="function")?activeCounty():"雲林縣";
-    const inC=(YIELDDATA.counties||{})[cty]||{};const nat=YIELDDATA.national||{};
-    for(const cand of cands){if(inC[cand]>0)return {v:+(inC[cand]/10000).toFixed(2),real:true,scope:cty};}
-    for(const cand of cands){if(nat[cand]>0)return {v:+(nat[cand]/10000).toFixed(2),real:true,scope:"全國"};}}
-  return {v:(YIELD_M2[c]||(cropCat(c)==="蔬菜"?2.5:0)),real:false,scope:""};}
-function yieldPerM2(c){return yieldInfo(c).v;}
-function seasonYieldFactor(iso){return isSummer(iso)?0.9:1.1;}   // 夏長得快較輕、冬慢較結實重(概略)
-const AREA_UNIT={ping:{k:3.30579,label:"坪"},fen:{k:293.4,label:"分"},m2:{k:1,label:"㎡"}};
-function estYieldKg(crop,areaM2,usablePct,plantISO){const u=(+areaM2||0)*((+usablePct||80)/100);
-  return u*yieldPerM2(crop)*seasonYieldFactor(plantISO);}
-/* 採收期價格預判（同期中位；同期樣本少改用近三月），供推薦排序與試算 */
-function predictPrice(crop,harvestISO){const series=sortedEntries(seriesFor(crop));if(!series.length)return null;
-  const hw=weekOf(harvestISO);
-  const near=series.filter(e=>{const d=Math.abs(weekOf(e[0])-hw);return d<=2||d>=50;}).map(e=>e[1].avg);
-  if(near.length>=5)return {med:median(near),lo:pctile(near,.25),hi:pctile(near,.75),n:near.length,same:true};
-  const recent=series.slice(-90).map(e=>e[1].avg);
-  if(recent.length>=5)return {med:median(recent),lo:pctile(recent,.25),hi:pctile(recent,.75),n:recent.length,same:false};
-  return null;}
-
 /* ══════ 設定/儲存 ══════ */
 const S={
-  get fs(){return localStorage.getItem("vs_fs")||"l";}, set fs(v){localStorage.setItem("vs_fs",v);},
+  /* 精準進貨（商人版）預設：字體小、果菜市場台中、天氣預報地區台中市 */
+  get fs(){return localStorage.getItem("vs_fs")||"s";}, set fs(v){localStorage.setItem("vs_fs",v);},
   get role(){return APP;}, set role(v){/* 單一身分 App：角色固定為 APP，不可切換 */},
-  get market(){return localStorage.getItem("vs_market")||"";}, set market(v){localStorage.setItem("vs_market",v);},
+  get market(){return localStorage.getItem("vs_market")||"台中";}, set market(v){localStorage.setItem("vs_market",v);},
   get unit(){return localStorage.getItem("vs_unit")||"kg";}, set unit(v){localStorage.setItem("vs_unit",v);},
-  get region(){return localStorage.getItem("vs_region")||"雲林縣";}, set region(v){localStorage.setItem("vs_region",v);},
-  get onboarded(){return localStorage.getItem("vs_onboarded")==="1";}, set onboarded(v){localStorage.setItem("vs_onboarded",v?"1":"");},
+  get region(){return localStorage.getItem("vs_region")||"台中市";}, set region(v){localStorage.setItem("vs_region",v);},
   watch(mk){try{return JSON.parse(localStorage.getItem("vs_watch_"+mk));}catch(e){return null;}},
   setWatch(mk,a){localStorage.setItem("vs_watch_"+mk,JSON.stringify(a));},
-  get fields(){try{const f=JSON.parse(localStorage.getItem("vs_fields"));return Array.isArray(f)?f:null;}catch(e){return null;}},
-  setFields(a){localStorage.setItem("vs_fields",JSON.stringify(a));},
 };
 function applyFont(){document.documentElement.setAttribute("data-fs",S.fs);
   document.querySelectorAll("#fsRow button").forEach(b=>b.classList.toggle("on",b.dataset.v===S.fs));}
-function seedFields(){return [
-  {id:"A12",name:"A12 溪底田",crop:"青江菜",plant:addDaysISO(todayISO(),-22),flood:4,spray:addDaysISO(todayISO(),-3),phi:8},
-  {id:"E09",name:"E09 高地",crop:"小白菜",plant:addDaysISO(todayISO(),-15),flood:1,spray:"",phi:0},
-  {id:"C03",name:"C03 芥藍田",crop:"芥藍菜",plant:addDaysISO(todayISO(),-55),flood:3,spray:addDaysISO(todayISO(),-10),phi:3},
-];}
-function getFields(){let f=S.fields;if(!f){f=seedFields();S.setFields(f);}return f;}
 
 /* ══════ 行情資料 ══════ */
-let INDEX=null,MDATA={},MVAR={},MARKET="",CUR=null,WEATHER=null,FORECAST=null,YIELDDATA=null;
+let INDEX=null,MDATA={},MVAR={},MARKET="",CUR=null,WEATHER=null,FORECAST=null;
 function marketNames(){return ((INDEX&&INDEX.markets)||[]).map(m=>m.name);}
 function cropMap(){return (INDEX&&INDEX.crop_map)||{};}
 /* 分類：蔬菜/水果（後端 prices_index.categories 提供；缺則用內建水果清單判斷） */
@@ -814,10 +573,6 @@ async function loadWeather(){
 async function loadForecast(){
   try{const r=await fetch(`${resolveGhBase()}/weather_forecast.json`,{cache:"no-store"});if(!r.ok)throw 0;
     const j=await r.json();return (j&&j.counties&&typeof j.counties==="object")?j:{counties:{}};}catch(e){return {counties:{}};}}
-async function loadYield(){
-  // 各縣市每公頃單產（農業部生產概況，後端排程產出）；抓不到就 null，前端退回內建估算值
-  try{const r=await fetch(`${resolveGhBase()}/yield_index.json`,{cache:"no-store"});if(!r.ok)throw 0;
-    const j=await r.json();return (j&&(j.counties||j.national))?j:null;}catch(e){return null;}}
 async function loadEvents(){
   // 真實天氣事件（颱風/大雨/低溫），由後端 fetch_cwa.py 逐日累積；抓不到就空、K線只顯示節慶/爆量
   try{const r=await fetch(`${resolveGhBase()}/weather_events.json`,{cache:"no-store"});if(!r.ok)throw 0;
@@ -905,7 +660,7 @@ function cropSvg(crop,variety){return CROP_SVG[variety]||CROP_SVG[crop]||"";}
 /* 水果品項/品種多、插圖難精準 → 改用放大鏡，點了直接 Google 圖片搜尋看實際照片（零版權，不自存圖） */
 function cropSearchURL(crop,variety){const q=(variety&&variety!==crop)?`${variety} ${crop}`:crop;
   return `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(q)}`;}
-const SEARCH_SVG=`<svg viewBox="0 0 96 96"><circle cx="42" cy="42" r="23" fill="rgba(111,184,74,.12)" stroke="#6fb84a" stroke-width="7"/><line x1="59" y1="59" x2="80" y2="80" stroke="#6fb84a" stroke-width="8" stroke-linecap="round"/></svg>`;
+const SEARCH_SVG=`<svg viewBox="0 0 96 96"><circle cx="42" cy="42" r="23" fill="rgba(255,154,46,.16)" stroke="#FF9A2E" stroke-width="7"/><line x1="59" y1="59" x2="80" y2="80" stroke="#FF9A2E" stroke-width="8" stroke-linecap="round"/></svg>`;
 /* 蔬菜插圖已全面取消 → 蔬菜用 emoji、水果用放大鏡；點圖示都開「說明」彈窗(內含 Google 查圖) */
 function cropIconHTML(crop,variety){return (cropCat(crop)==="水果")?SEARCH_SVG:cropIcon(crop);}
 const CROP_TIP={
@@ -1062,10 +817,10 @@ function renderBoard(){
   const cb=document.getElementById("catbar");if(cb&&searching)cb.style.display="none";  // 搜尋時隱藏蔬果分類
   // 颱風警戒在最上（有颱風/追蹤/豪雨才顯示，平安時隱藏不佔版面），天氣預報在其下
   const alm=document.getElementById("hAlertM");
-  if(alm){const a=typhoonAlertInfo({board:true});
+  if(alm){const a=typhoonAlertInfo();
     if(a.noteworthy&&!searching){alm.style.display="";alm.className=a.cls;alm.innerHTML=a.html;alm.onclick=a.clickable?openTyphoon:null;}
     else{alm.style.display="none";alm.innerHTML="";alm.onclick=null;}}
-  const wam=document.getElementById("wAdviceM");if(wam)wam.innerHTML=(S.role==="merchant"&&!searching)?weatherAdviceHTML("merchant"):"";
+  const wam=document.getElementById("wAdviceM");if(wam)wam.innerHTML=(!searching)?weatherAdviceHTML():"";
   const ml=document.getElementById("mktLabel");if(ml)ml.innerHTML=`<b>${MARKET}</b> · 批發`;
   const cs=document.getElementById("cropSearch");if(cs)cs.placeholder=`🔍 搜尋此市場 ${availableCrops().length} 種品項…`;
   const ub=document.getElementById("unitbar");if(ub){ub.innerHTML=unitToggleHTML("ubSeg");bindUnitToggle(ub);}
@@ -1112,12 +867,10 @@ function renderBoard(){
 function wireIcon(root,crop,label){const ic=root.querySelector(".cropicon");if(!ic)return;
   ic.onclick=(e)=>{e.stopPropagation();openCropInfo(crop,label);};}   // 點圖示→說明彈窗(含 Google 查圖鈕)
 function selectCrop(d){openDetail(d,null);}   // 相容舊呼叫
-/* 角色買賣價註記：批發拍賣是「一個成交價」，農夫扣手續費實得、商人進貨成本＋手續費 */
-const FEE_FARMER=0.06,FEE_MERCHANT=0.06;
+/* 進貨成本註記：批發拍賣是「一個成交價」，商人進貨成本＝拍賣均價＋承銷手續費 */
+const FEE_MERCHANT=0.06;
 function roleNoteHTML(avg){const u=unitU();
-  return S.role==="merchant"
-    ? `<div class="rolenote merchant">🧺 進貨成本約 <b>${pxU(avg*(1+FEE_MERCHANT)).toFixed(1)}</b> ${u}（拍賣均價＋承銷手續費估）· 零售自行加價</div>`
-    : `<div class="rolenote farmer">🧑‍🌾 農民實得約 <b>${pxU(avg*(1-FEE_FARMER)).toFixed(1)}</b> ${u}（拍賣均價扣手續費估 ~6%）</div>`;
+  return `<div class="rolenote merchant">🧺 進貨成本約 <b>${pxU(avg*(1+FEE_MERCHANT)).toFixed(1)}</b> ${u}（拍賣均價＋承銷手續費估）· 零售自行加價</div>`;
 }
 /* ── 點作物 → (有品種先下拉選) → 詳細頁（K線走勢 + 逐日明細）；‹返回 回列表 ── */
 function openDetail(disp,variety){MKTMODE="detail";DETAIL=disp;CUR=disp;CURVAR=variety||null;PICK=null;
@@ -1215,7 +968,7 @@ function drawChart(es){const d=tfSeries(es);QDATA=d;QGEO=null;if(d.length<2)retu
   QANNO=annotate(d);let marks="";
   QANNO.forEach(a=>{const X=x(a.i),yv=y(d[a.i][1].avg),cc=a.pct>=0?"#E4572E":"#5FB85A";
     marks+=`<line x1="${X.toFixed(1)}" y1="${pT}" x2="${X.toFixed(1)}" y2="${(H-pB).toFixed(1)}" stroke="${cc}" stroke-width="1" opacity="0.4" stroke-dasharray="2 3"/>`;
-    marks+=`<circle cx="${X.toFixed(1)}" cy="${yv.toFixed(1)}" r="3.4" fill="${cc}" stroke="#12160E" stroke-width="1.1"/>`;});
+    marks+=`<circle cx="${X.toFixed(1)}" cy="${yv.toFixed(1)}" r="3.4" fill="${cc}" stroke="#1C130F" stroke-width="1.1"/>`;});
   const defs=`<defs><linearGradient id="qgrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity="0.30"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient></defs>`;
   return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="價格走勢，可滑動查價">${defs}${ribbon}${area}${poly}${marks}<g id="qcross"></g></svg>`;}
 /* 查價線：垂直＝日期(底部標)、水平＝均價(右側標) + 詳細列 */
@@ -1250,10 +1003,8 @@ function attachCross(box){
   crossDraw(QGEO.n-1);   // 預設顯示最新一筆查價線
 }
 
-/* ══════ 田區搶收（前端即時計算） ══════ */
-const DECC={NOW:"r",ADVISED:"o",WATCH:"y",NORMAL:"g"};const DECT={NOW:"立即搶收",ADVISED:"建議搶收",WATCH:"觀望",NORMAL:"照常"};
-function clamp(x,a,b){return Math.max(a,Math.min(b,x));}
-/* 以「田區座標」算侵襲機率：用 typhoon_status.track（各預報時刻位置＋暴風圈半徑）逐點比對 */
+/* ══════ 颱風侵襲機率（依所在縣市中心點×颱風軌跡） ══════ */
+/* 用 typhoon_status.track（各預報時刻位置＋暴風圈半徑）逐點比對縣市中心點 */
 function haversineKm(la1,lo1,la2,lo2){const R=6371,p1=la1*Math.PI/180,p2=la2*Math.PI/180,dp=(la2-la1)*Math.PI/180,dl=(lo2-lo1)*Math.PI/180;
   const a=Math.sin(dp/2)**2+Math.cos(p1)*Math.cos(p2)*Math.sin(dl/2)**2;return 2*R*Math.asin(Math.sqrt(a));}
 function invasionAt(lat,lng){
@@ -1267,49 +1018,14 @@ function invasionAt(lat,lng){
     if(r15&&d<=r15&&!eta_iso&&p.t&&Date.parse(p.t)>now)eta_iso=p.t;}
   if(prob===0&&minD<400)prob=+(0.12*(1-minD/400)).toFixed(2);
   return {prob:+prob.toFixed(2),eta_iso,eta:eta_iso?`約 ${Math.round((Date.parse(eta_iso)-now)/3600e3)} 小時後`:(w.eta_text||"追蹤中"),dist:Math.round(minD)};}
-function shortRegion(nm){return nm?nm.replace("雲林縣","").replace("彰化縣","彰化·").replace("嘉義縣","嘉義·").replace(/[縣市]$/,""):"雲林";}
-function invasionByRegion(){const map={};getFields().forEach(f=>{if(!f.geo)return;const t=whichTownship(f.geo.lat,f.geo.lng);
-  const r=t?shortRegion(t.name):"你的田";const pr=invasionAt(f.geo.lat,f.geo.lng).prob||0;if(map[r]==null||pr>map[r])map[r]=pr;});return map;}
+/* 商人版無逐田座標，颱風侵襲率一律以「所在縣市」呈現（見 regionInvasion） */
+function invasionByRegion(){return {};}
 /* 全國化：無田座標時，用「使用者所在縣市」中心點以颱風軌跡算侵襲機率（不再寫死雲林） */
 function countyShort(nm){return (normCounty(nm||"")).replace(/[縣市]$/,"")||"你的地區";}
 function countyCentroid(nm){nm=normCounty(nm);const r=COUNTY_LL.find(c=>c[0]===nm);return r?{lat:r[1],lng:r[2]}:null;}
 function regionInvasion(){const cty=activeCounty();const c=countyCentroid(cty);const w=WEATHER||{};
   const prob=c?invasionAt(c.lat,c.lng).prob:(w.invade_prob!=null?w.invade_prob:null);
   return {name:countyShort(cty),prob};}
-function computeField(f){
-  const now=todayISO();const T=growthDays(f.crop,f.plant);const age=daysBetween(f.plant,now);
-  const maturity=clamp(age/T,0,2);const harvestISO=addDaysISO(f.plant,T);const daysToHarvest=Math.round(daysBetween(now,harvestISO));
-  const phiOkISO=f.spray?addDaysISO(f.spray,+f.phi||0):null;const phiShort=phiOkISO?Math.ceil(daysBetween(now,phiOkISO)):0;
-  const w=WEATHER||{active:false};const active=!!w.active;
-  const inv=f.geo?invasionAt(f.geo.lat,f.geo.lng):{prob:(w.invade_prob!=null?w.invade_prob:0),eta_iso:w.eta_iso,eta:w.eta_text,dist:w.min_dist_km};
-  const region=f.geo?shortRegion((whichTownship(f.geo.lat,f.geo.lng)||{}).name):"雲林";
-  let decision="NORMAL",risk=0,deadline=null,dilemma=null,oppo=null,lines=[];
-  const matPct=Math.round(maturity*100);
-  if(active){
-    const P=+inv.prob||0;const rain=+w.rain_24h_mm||0;const burst=+w.rain_1h_mm||0;const gust=+w.forecast_gust_ms||0;
-    // 強度＝風(颱風逼近時雨未到也算) + 24hr雨 + 瞬間雨
-    const iNorm=clamp(0.4*clamp(gust/50,0,1)+0.4*clamp(rain/300,0,1)+0.2*clamp(burst/60,0,1),0,1);
-    const Wt=clamp(1+0.1*((+f.flood||1)-1),0.5,1.4);const V=V_CROP[f.crop]||.9;
-    risk=Math.round(clamp(100*P*iNorm*Wt*V,0,100));
-    // 時間軸
-    const etaISO=inv.eta_iso||w.eta_iso;
-    if(etaISO){const etaMs=Date.parse(etaISO);const safeMs=etaMs-(12+ (FLOOD_ADV[f.flood]||0))*3600e3;deadline=safeMs;}
-    const slackH=deadline?(deadline-Date.now())/3600e3:999;
-    if(risk>=65&&slackH<=24)decision="NOW";else if(risk>=50)decision="ADVISED";else if(risk>=25)decision="WATCH";else decision="NORMAL";
-    const immature=maturity<(MAT_MIN[f.crop]||.75);
-    if(immature&&(decision==="NOW"||decision==="ADVISED")){decision="WATCH";lines.push(`成熟度僅 ${matPct}%，收了殘值低`);}
-    lines.unshift(`${region} 侵襲機率 ${Math.round(P*100)}%、24hr雨量 ${rain}mm${burst?`、瞬間雨量 ${burst}mm`:""}`);
-    // 地勢：低窪→搶收；地勢高→價格機會
-    if((+f.flood||1)>=4){lines.push(`地勢低窪（等級 ${f.flood}），泡水 48hr 起爛根，須提前收`);}
-    else if((+f.flood||1)<=2&&P>=0.4&&rain>=150){oppo={};}
-    // PHI 兩難
-    if(phiShort>0){dilemma={days:phiShort};if(risk>=50)lines.push("兩難：現在收→農藥超標；不收→泡水滅田");}
-  }else{
-    lines.push(phiShort>0?`農藥安全期還差 ${phiShort} 天才可上市`:(f.spray?"農藥安全期已過，可上市":"目前無颱風，照常管理"));
-  }
-  return {f,decision,risk,deadline,dilemma,oppo,lines,maturity,matPct,harvestISO,daysToHarvest,phiShort,active,inv,region};
-}
-let hTimers=[];
 /* ══════ 颱風詳情：地圖式路徑圖(台灣＋中國＋鄰近＋逐時) + windy 雷達 + 官方連結 ══════ */
 // 粗略海岸線（lat,lng）當底圖，輕量離線；內陸點放遠(超出畫面自動裁切)以填成陸塊
 const TAIWAN=[[25.30,121.53],[25.16,121.80],[24.85,121.92],[24.55,121.86],[24.00,121.62],
@@ -1325,7 +1041,8 @@ function fmtTrackTime(iso){const m=String(iso).match(/(\d{4})-(\d{2})-(\d{2})T(\
 function drawTyphoonTrack(track){
   if(!Array.isArray(track)||!track.length)
     return `<div class="tynote">目前沒有逐時路徑資料（颱風可能剛生成或已遠離）。可用下方連結看官方即時路徑。</div>`;
-  const REF={lat:23.771,lng:120.413};   // 雲林二崙
+  const REF=countyCentroid(activeCounty())||{lat:24.148,lng:120.674};   // 所在縣市中心（預設台中）
+  const REFNAME=countyShort(activeCounty());
   const pts=track.filter(p=>isFinite(+p.lat)&&isFinite(+p.lng))
     .map(p=>({lat:+p.lat,lng:+p.lng,r15:+p.r15||0,r25:+p.r25||0,t:p.t}));
   if(!pts.length)return `<div class="tynote">路徑資料不足。</div>`;
@@ -1351,13 +1068,13 @@ function drawTyphoonTrack(track){
   let circles="",dots="",labels="";
   km.forEach((k,i)=>{const cx=X(k),cy=Y(k),last=i===0;
     if(pts[i].r15)circles+=`<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${(pts[i].r15*scale).toFixed(1)}" fill="rgba(228,87,46,.08)" stroke="rgba(228,87,46,.34)" stroke-width="1"/>`;
-    dots+=`<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${last?5:3}" fill="${last?'#E4572E':'#F2B705'}" stroke="#12160E" stroke-width="1"/>`;
+    dots+=`<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${last?5:3}" fill="${last?'#E4572E':'#F2B705'}" stroke="#1C130F" stroke-width="1"/>`;
     // 逐時日期時間標籤（首/末/隔點顯示，避免太擠）
     if((last||i===km.length-1||i%2===0)&&pts[i].t){const tx=fmtTrackTime(pts[i].t);if(tx)
       labels+=`<text x="${(cx+6).toFixed(1)}" y="${(cy-6).toFixed(1)}" fill="${last?'#F6C6B4':'#c9cdb0'}" font-size="9" font-weight="700">${tx}</text>`;}});
   const rx=X(rk),ry=Y(rk);
-  const ref=`<circle cx="${rx.toFixed(1)}" cy="${ry.toFixed(1)}" r="5.5" fill="#7CC24A" stroke="#12160E" stroke-width="1.5"/>`+
-    `<text x="${(rx+9).toFixed(1)}" y="${(ry+4).toFixed(1)}" fill="#CDE8A0" font-size="12" font-weight="800">雲林</text>`;
+  const ref=`<circle cx="${rx.toFixed(1)}" cy="${ry.toFixed(1)}" r="5.5" fill="#7CC24A" stroke="#1C130F" stroke-width="1.5"/>`+
+    `<text x="${(rx+9).toFixed(1)}" y="${(ry+4).toFixed(1)}" fill="#CDE8A0" font-size="12" font-weight="800">${REFNAME}</text>`;
   return `<svg viewBox="0 0 ${W} ${H}" class="tysvg" role="img" aria-label="颱風路徑圖">
     <rect x="0" y="0" width="${W}" height="${H}" fill="#0e1a24"/>${landSVG}
     <polyline points="${line}" fill="none" stroke="#E4572E" stroke-width="2" stroke-dasharray="5 4" opacity="0.9"/>
@@ -1370,11 +1087,11 @@ function bearing8(la1,lo1,la2,lo2){const dl=(lo2-lo1)*Math.PI/180;
   const x=Math.cos(la1*Math.PI/180)*Math.sin(la2*Math.PI/180)-Math.sin(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.cos(dl);
   let b=(Math.atan2(y,x)*180/Math.PI+360)%360;return ["正北","東北","正東","東南","正南","西南","正西","西北"][Math.round(b/45)%8];}
 function typhoonNarrative(){
-  const w=WEATHER||{};const REF={lat:23.771,lng:120.413};
+  const w=WEATHER||{};const REF=countyCentroid(activeCounty())||{lat:24.148,lng:120.674};const REFNAME=countyShort(activeCounty());
   const t=(Array.isArray(w.track)?w.track:[]).filter(p=>isFinite(+p.lat)&&isFinite(+p.lng));
   let s=`颱風「${w.name||"—"}」`;
   if(t.length){const cur=t[0];const dist=Math.round(haversineKm(REF.lat,REF.lng,+cur.lat,+cur.lng));
-    s+=`目前位於雲林${bearing8(REF.lat,REF.lng,+cur.lat,+cur.lng)}方海面約 ${dist} 公里處`;
+    s+=`目前位於${REFNAME}${bearing8(REF.lat,REF.lng,+cur.lat,+cur.lng)}方海面約 ${dist} 公里處`;
     if(t.length>1)s+=`，向${bearing8(+cur.lat,+cur.lng,+t[t.length-1].lat,+t[t.length-1].lng)}方移動`;
     if(cur.gust)s+=`，近中心最大陣風約 ${Math.round(cur.gust)} m/s`;
     if(w.min_dist_km!=null&&w.min_dist_km<dist-10)s+=`；預估最近將接近至約 ${w.min_dist_km} 公里`;
@@ -1383,9 +1100,9 @@ function typhoonNarrative(){
   if(prob!=null)s+=`${ri.name}侵襲機率約 ${prob}%`;
   if(w.eta_text&&w.eta_text!=="追蹤中")s+=`，暴風圈預估 ${w.eta_text}接近`;s+="。";
   const rain=+w.rain_24h_mm||0;if(rain>0)s+=`監測站過去 24 小時累積雨量約 ${rain}mm。`;
-  const adv=(P>=0.5||rain>=150)?"低窪田請提前搶收、留意積水與強陣風；已達成熟度者優先收成。"
-    :(P>=0.25||rain>=80)?"持續留意路徑與短延時強降雨，低窪田先做排水準備。"
-    :"威脅尚低，維持追蹤即可，暫可照常管理。";
+  const adv=(P>=0.5||rain>=150)?"風雨影響大，外出擺攤／進貨請改期或備雨具、生鮮加強防潮；留意強陣風與道路積水。"
+    :(P>=0.25||rain>=80)?"持續留意路徑與短延時強降雨，擺攤請備遮雨、生鮮防潮。"
+    :"威脅尚低，維持追蹤即可，可照常擺攤進貨。";
   return `<div class="tyfore"><div class="tyfore-h">🧑‍✈️ 預報員解讀</div><p>${s}</p><p class="tyadv">👉 ${adv}</p></div>`;
 }
 function windyURL(ov){const lat=23.7,lng=120.5;const prod=ov==="radar"?"&product=radar":"";
@@ -1422,7 +1139,7 @@ function openTyphoon(){const w=WEATHER||{};if(!(w.active||w.tracking))return;
   document.getElementById("typhoonModal").classList.add("on");}
 function closeTyphoon(){document.getElementById("typhoonModal").classList.remove("on");
   const b=document.getElementById("tyBody");if(b)b.innerHTML="";}   // 卸載 iframe 省資源
-/* ══════ 天氣預報建議：商人「擺攤指數/何時下雨」、農夫「農事時段」 ══════ */
+/* ══════ 天氣預報建議：擺攤指數／何時下雨 ══════ */
 function fcPeriods(){const C=(FORECAST&&FORECAST.counties)||null;if(!C)return [];
   const p=C[activeCounty()];return (p&&Array.isArray(p.periods))?p.periods:[];}
 function wxEmoji(wx){wx=wx||"";
@@ -1444,35 +1161,24 @@ function fcStripHTML(){const s=fcPeriods().slice(0,4);if(!s.length)return "";
     `<span class="fcwx">${wxEmoji(x.wx)}</span>`+
     `<span class="fcpop">${x.pop!=null?"☔"+x.pop+"%":"–"}</span>`+
     `<span class="fctemp">${fcTempText(x)}</span></div>`;}).join("")}</div>`;}
-function weatherAdviceHTML(role){
+function weatherAdviceHTML(){
   const s=fcPeriods();if(!s.length)return "";     // 無預報資料就不顯示（不佔版面）
   const cty=activeCounty();const nr=fcNextRain();const tmax=fcTodayMaxPop();
   const rainLine=nr?`☔ 可能下雨：<b>${nr.label||"近期"}</b>（降雨機率 ${nr.pop}%）`
     :`🌤 今明降雨機率偏低，以晴到多雲為主。`;
-  if(role==="merchant"){
-    let idx,cls,note;
-    if(tmax>=70){idx="不佳";cls="dn";note="降雨機率高，戶外擺攤請備雨具或改期、生鮮防潮。";}
-    else if(tmax>=40){idx="普通";cls="mid";note="部分時段可能有雨，擺攤留意遮雨。";}
-    else{idx="佳";cls="up";note="降雨機率低，適合戶外擺攤。";}
-    return `<div class="wadv"><div class="wadv-h">🌦 ${cty} · 擺攤指數 <b class="${cls}">${idx}</b></div>
-      <div class="wadv-l">${rainLine}</div><div class="wadv-l">${note}</div>${fcStripHTML()}
-      <div class="wadv-f">中央氣象署 · 今明 36 小時預報（可在 ⚙️ 換地區）</div></div>`;
-  }
-  const advice=tmax>=70?"多雨，宜室內整備；避免噴藥(易被沖刷)。"
-    :tmax>=40?"部分時段可能有雨，農事宜安排晴時；噴藥避開雨前。"
-    :"降雨機率低，適合農事、採收與噴藥。";
-  return `<div class="wadv"><div class="wadv-h">🧑‍🌾 ${cty} · 農事天氣建議</div>
-    <div class="wadv-l">${rainLine}</div><div class="wadv-l">👉 ${advice}</div>${fcStripHTML()}
+  let idx,cls,note;
+  if(tmax>=70){idx="不佳";cls="dn";note="降雨機率高，戶外擺攤請備雨具或改期、生鮮防潮。";}
+  else if(tmax>=40){idx="普通";cls="mid";note="部分時段可能有雨，擺攤留意遮雨。";}
+  else{idx="佳";cls="up";note="降雨機率低，適合戶外擺攤。";}
+  return `<div class="wadv"><div class="wadv-h">🌦 ${cty} · 擺攤指數 <b class="${cls}">${idx}</b></div>
+    <div class="wadv-l">${rainLine}</div><div class="wadv-l">${note}</div>${fcStripHTML()}
     <div class="wadv-f">中央氣象署 · 今明 36 小時預報（可在 ⚙️ 換地區）</div></div>`;
 }
-/* 颱風/豪雨警戒卡（農夫田區頁＋商人看板頁共用；置於天氣預報之上）。
-   board=true 給商人看板用：不顯示逐田侵襲率、平安時回傳 noteworthy=false 讓看板隱藏不佔版面。 */
-function typhoonAlertInfo(opts){
-  opts=opts||{};const board=opts.board;
+/* 颱風/豪雨警戒卡（商人看板頁用；置於天氣預報之上）。平安時回傳 noteworthy=false 讓看板隱藏不佔版面。 */
+function typhoonAlertInfo(){
   const w=WEATHER||{active:false};const rain24=+w.rain_24h_mm||0;
-  const byR=invasionByRegion();const rk=Object.keys(byR);const ri=regionInvasion();
-  const invHTML=board?"":(rk.length?rk.map(r=>`<span class="k">${r} 侵襲機率 <b>${Math.round(byR[r]*100)}%</b></span>`).join("")
-    :`<span class="k">${ri.name} 侵襲機率 <b>${ri.prob!=null?Math.round(ri.prob*100)+"%":"—"}</b></span>`);
+  const ri=regionInvasion();
+  const invHTML=`<span class="k">${ri.name} 侵襲機率 <b>${ri.prob!=null?Math.round(ri.prob*100)+"%":"—"}</b></span>`;
   const moreHint=`<span class="k tmore">🛰 點看路徑・雷達 ›</span>`;
   let cls="alert calm",html="",clickable=false,noteworthy=false;
   if(w.active){noteworthy=true;clickable=true;cls="alert flash clickable";html=`<span class="ticon spin">🌀</span>
@@ -1481,117 +1187,15 @@ function typhoonAlertInfo(opts){
   else if(rain24>=80){noteworthy=true;const heavy=rain24>=200;cls="alert rain flash";
     html=`<span class="ticon">${heavy?"⛈️":"🌧️"}</span>
       <span class="big">${heavy?"豪雨特報":"大雨特報"} · 24hr 雨量 <b>${rain24}mm</b></span>
-      <span class="k">${board?"外出擺攤請備雨具、生鮮防潮":"低窪田注意積水、可提前搶收"}</span>`;}
+      <span class="k">外出擺攤請備雨具、生鮮防潮</span>`;}
   else if(w.tracking){noteworthy=true;clickable=true;cls="alert track clickable";html=`<span class="ticon">🌀</span>
     <span class="big">颱風 <b>${w.name||"—"}</b> 追蹤中</span>
     <span class="k">${w.warning||"對各地暫無直接威脅"}</span>
     ${w.min_dist_km!=null?`<span class="k">最近距離 <b>${w.min_dist_km} km</b></span>`:""}${invHTML}${moreHint}`;}
-  else{cls="alert calm";html=`<span class="ticon">🌿</span><span class="big">目前<b>無颱風警報</b></span>${board?"":'<span class="k">下方顯示各田採收進度</span>'}`;}
+  else{cls="alert calm";html=`<span class="ticon">🌿</span><span class="big">目前<b>無颱風警報</b></span>`;}
   return {cls,html,clickable,noteworthy};
 }
-function renderHarvest(){
-  const w=WEATHER||{active:false};const al=document.getElementById("hAlert");
-  const a=typhoonAlertInfo();al.className=a.cls;al.innerHTML=a.html;al.onclick=a.clickable?openTyphoon:null;   // 颱風警戒在最上
-  const wa=document.getElementById("wAdvice");if(wa)wa.innerHTML=weatherAdviceHTML("farmer");                  // 天氣預報在其下
-  const fields=getFields().map(computeField);
-  if(w.active)fields.sort((a,b)=>b.risk-a.risk);
-  const wrap=document.getElementById("hCards");wrap.innerHTML="";hTimers=[];
-  if(!fields.length){wrap.innerHTML='<div class="empty">還沒有田區。點右上 ⚙️ → 我的田區 → 新增一塊田。</div>';return;}
-  fields.forEach((r,i)=>{const c=DECC[r.decision];const el=document.createElement("div");el.className="fcard dec-"+c;
-    const rw=r.risk>=65?["hi","高"]:r.risk>=40?["mid","中"]:["lo","低"];
-    let mid="";
-    if(r.active){
-      mid=`<div class="line">滅田風險：<b class="${rw[0]}">${rw[1]}</b>（${r.risk}/100）· 成熟度 ${r.matPct}%</div>`;
-      if(r.decision==="NOW"||r.decision==="ADVISED"){const tgt=r.deadline;
-        mid+=`<div class="count" id="hc${i}"><div class="cl">⏳ 最晚開始搶收</div><div class="cd" id="cd${i}">--:--:--</div><div class="cn" id="cn${i}"></div></div>`;
-        if(tgt)hTimers.push({i,target:tgt});}
-    }else{
-      mid=`<div class="line">成熟度 <b>${r.matPct}%</b> · 預計採收 <b>${r.harvestISO}</b>（約 ${r.daysToHarvest} 天後）</div>`;
-    }
-    const dil=r.dilemma?`<div class="dilemma"><div class="dh">⚠ 農藥安全期還差 ${r.dilemma.days} 天（收了不可上市）</div><div class="dt">現在收＝走加工殘值；不收＝恐泡水。</div></div>`:"";
-    const opp=r.oppo?`<div class="oppo"><div class="oh">💰 地勢高、預期不淹的機會</div><div class="ot">周邊低窪田恐泡水減產，你這塊若撐住，災後行情看漲——可評估「不搶收、賭災後好價」。</div></div>`:"";
-    const why=r.lines.length?`<div class="line">${r.lines[0]}${r.lines[1]?"；"+r.lines[1]:""}</div>`:"";
-    el.innerHTML=`<div class="ctop"><span class="cid">${r.f.name} <small>${r.f.crop}</small></span><span class="pill dec-${c}">${DECT[r.decision]}</span></div>
-      ${mid}${why}${dil}${opp}`;
-    wrap.appendChild(el);});
-  hTick();
-}
-function hTick(){const now=Date.now();hTimers.forEach(tm=>{const cd=document.getElementById("cd"+tm.i);if(!cd)return;
-  const cn=document.getElementById("cn"+tm.i),box=cd.closest(".count");let s=Math.max(0,Math.floor((tm.target-now)/1000));
-  const h=Math.floor(s/3600);s%=3600;cd.textContent=pad(h)+":"+pad(Math.floor(s/60))+":"+pad(s%60);
-  const hl=(tm.target-now)/3600e3;box.classList.toggle("soon",hl<12&&hl>0);const d=new Date(tm.target);
-  cn.textContent="最晚 "+(d.getMonth()+1)+"/"+d.getDate()+" "+pad(d.getHours())+":"+pad(d.getMinutes())+" 前開始收";});}
-setInterval(hTick,1000);
-
-/* ══════ 採收價預判 ══════ */
-function renderForecast(){
-  const crop=document.getElementById("fcCrop").value;const plant=document.getElementById("fcDate").value||todayISO();
-  const box=document.getElementById("fcResult");
-  const T=growthDays(crop,plant);const harvestISO=addDaysISO(plant,T);const hw=weekOf(harvestISO);
-  const series=sortedEntries(seriesFor(crop));
-  const month=+harvestISO.split("-")[1];const typ=month>=6&&month<=10;
-  const riskHtml=`<div class="risk ${typ?"warn":"ok"}">${typ?"⚠ 採收落在颱風季（6–10月）：災前大家搶收會壓價，災後若減產則可能大漲——地勢高、能撐住的田較有機會賣好價。":"✓ 採收在非颱風季，價格相對穩定，可安心規劃。"}</div>`;
-  const head=`<h3>${crop}｜預計採收 ${harvestISO}</h3>`;
-  if(!series.length){box.innerHTML=`<div class="fcresult">${head}<div class="row">此作物在 ${MARKET} 目前<b>沒有行情資料</b>，無法推估。</div>${riskHtml}</div>`;return;}
-  const near=series.filter(e=>{const d=Math.abs(weekOf(e[0])-hw);return d<=2||d>=50;}).map(e=>e[1].avg);
-  let band,note;
-  if(near.length>=5){const med=median(near),lo=pctile(near,.25),hi=pctile(near,.75);
-    band=`${lo.toFixed(0)}–${hi.toFixed(0)}`;note=`近兩年<b>同期</b>中位價約 <b>${med.toFixed(1)}</b> 元/公斤（同期樣本 ${near.length} 天，生育期約 ${T} 天）`;}
-  else{const recent=series.slice(-90).map(e=>e[1].avg);
-    if(recent.length>=5){const med=median(recent),lo=pctile(recent,.25),hi=pctile(recent,.75);
-      band=`${lo.toFixed(0)}–${hi.toFixed(0)}`;note=`⚠ 同期資料少（僅 ${near.length} 天，此作物在此季少見），改用<b>近三個月</b>行情粗估：中位約 <b>${med.toFixed(1)}</b> 元/公斤`;}
-    else{box.innerHTML=`<div class="fcresult">${head}<div class="row">生育期約 <b>${T}</b> 天。此作物在 ${MARKET} <b>資料太少</b>，暫無法推估。</div>${riskHtml}</div>`;return;}}
-  box.innerHTML=`<div class="fcresult">${head}<div class="band mono">${band} <span class="u">元/公斤</span></div>
-    <div class="row">${note}</div>${riskHtml}</div>`;
-}
-/* 🌱 本季推薦種植 + 產量收入試算 */
-function fmtKg(kg){return kg>=1000?(kg/1000).toFixed(1)+" 噸":Math.round(kg)+" kg";}
-function fmtMoney(v){return v>=10000?"$"+(v/10000).toFixed(1)+" 萬":"$"+Math.round(v).toLocaleString();}
-function renderPlantAdvisor(){
-  const fsel=document.getElementById("paField");const box=document.getElementById("paResult");if(!box)return;
-  const fields=getFields();
-  if(fsel){const cur=fsel.value;
-    fsel.innerHTML=`<option value="__manual">— 請選擇田區 —</option>`+fields.map(f=>{const u=(AREA_UNIT[f.areaUnit]||{}).label||"";
-      return `<option value="${f.id}">${f.name}${f.area?`（${f.area}${u}）`:"（未設面積）"}</option>`;}).join("");
-    if(cur&&[...fsel.options].some(o=>o.value===cur))fsel.value=cur;}
-  const fid=fsel?fsel.value:"__manual";
-  const plant=document.getElementById("paDate").value||todayISO();
-  let area_m2=0,usable=80,fname="";
-  const f=fields.find(x=>x.id===fid);if(f){area_m2=+f.area_m2||0;usable=+f.usable||80;fname=f.name;}
-  if(!area_m2){box.innerHTML=`<div class="empty">請先選一個有填<b>面積</b>的田區（可在 ⚙️ 我的田區替該田補上面積），即可試算採收量與收入。</div>`;return;}
-  const rows=[];
-  for(const crop of cropList()){const T=growthDays(crop,plant);const harvestISO=addDaysISO(plant,T);
-    const pp=predictPrice(crop,harvestISO);if(!pp)continue;   // 無足夠行情資料的作物自動略過
-    const yieldKg=estYieldKg(crop,area_m2,usable,plant);const net=pp.med*0.94;const yi=yieldInfo(crop);
-    rows.push({crop,harvestISO,T,pp,yieldKg,revenue:yieldKg*net,yreal:yi.real,yscope:yi.scope});}
-  if(!rows.length){box.innerHTML=`<div class="empty">此市場葉菜行情資料不足，暫無法推薦。可在右上 ⚙️ 換市場。</div>`;return;}
-  rows.sort((a,b)=>b.revenue-a.revenue);
-  const usable_m2=area_m2*(usable/100);
-  box.innerHTML=`<div class="pa-info">📐 <b>${fname}</b>：可種面積約 <b>${Math.round(usable_m2)}</b> ㎡（總 ${Math.round(area_m2)}㎡ × 可種 ${usable}%，已扣走道）</div>`+
-    rows.slice(0,8).map((r,i)=>{const hMonth=+r.harvestISO.split("-")[1];const typ=hMonth>=6&&hMonth<=10;
-      return `<div class="pacard${i===0?' best':''}">
-      <div class="pa-top"><span class="pa-rk">${i+1}</span><span class="pa-nm">${cropIcon(r.crop)} ${r.crop}</span>
-        ${i===0?'<span class="pa-badge">最高收入</span>':""}${typ?'<span class="pa-typ">颱風季採收</span>':""}</div>
-      <div class="pa-grid">
-        <div><span class="pa-k">採收約</span><b>${r.harvestISO.slice(5)}</b><span class="pa-s">生育 ${r.T} 天</span></div>
-        <div><span class="pa-k">預估價</span><b>${r.pp.med.toFixed(0)}</b><span class="pa-s">元/kg</span></div>
-        <div><span class="pa-k">預估採收量</span><b>${fmtKg(r.yieldKg)}</b><span class="pa-s">${r.yreal?`📊 ${r.yscope}實測`:"估算"}</span></div>
-        <div><span class="pa-k">預估收入</span><b class="pa-rev">${fmtMoney(r.revenue)}</b></div>
-      </div></div>`;}).join("");
-}
-
-/* ══════ 座標 → 鄉鎮（本地查表，供核對座標對不對；雲林為主＋鄰近鄉鎮） ══════ */
-const TOWNSHIPS=[
- ["雲林縣二崙鄉",23.771,120.413],["雲林縣西螺鎮",23.798,120.466],["雲林縣崙背鄉",23.757,120.352],
- ["雲林縣莿桐鄉",23.771,120.510],["雲林縣虎尾鎮",23.708,120.433],["雲林縣土庫鎮",23.677,120.392],
- ["雲林縣褒忠鄉",23.694,120.310],["雲林縣東勢鄉",23.674,120.256],["雲林縣台西鄉",23.702,120.197],
- ["雲林縣麥寮鄉",23.753,120.253],["雲林縣斗六市",23.712,120.542],["雲林縣斗南鎮",23.680,120.478],
- ["雲林縣古坑鄉",23.642,120.562],["雲林縣大埤鄉",23.645,120.430],["雲林縣元長鄉",23.653,120.316],
- ["雲林縣北港鎮",23.575,120.302],["雲林縣水林鄉",23.573,120.245],["雲林縣口湖鄉",23.585,120.185],
- ["雲林縣四湖鄉",23.638,120.222],["雲林縣林內鄉",23.757,120.612],
- ["彰化縣二林鎮",23.899,120.374],["彰化縣溪州鄉",23.851,120.499],["彰化縣竹塘鄉",23.859,120.427],
- ["嘉義縣新港鄉",23.552,120.348],["嘉義縣溪口鄉",23.628,120.393]];
-/* 全國縣市（天氣預報地區選擇）；中心點供 GPS→縣市。名稱用「台」不用「臺」與後端一致 */
+/* ══════ 全國縣市（天氣預報地區選擇）；中心點供颱風侵襲率計算。名稱用「台」不用「臺」與後端一致 ══════ */
 const COUNTY_LL=[
  ["基隆市",25.128,121.742],["台北市",25.048,121.532],["新北市",25.012,121.465],["桃園市",24.994,121.301],
  ["新竹市",24.804,120.968],["新竹縣",24.707,121.123],["苗栗縣",24.560,120.821],["台中市",24.148,120.674],
@@ -1601,25 +1205,9 @@ const COUNTY_LL=[
  ["金門縣",24.437,118.318],["連江縣",26.160,119.951]];
 const COUNTY_ORDER=COUNTY_LL.map(c=>c[0]);
 function normCounty(nm){return nm?String(nm).replace("臺","台"):nm;}
-function countyFromLatLng(lat,lng){if(!isFinite(lat)||!isFinite(lng))return null;
-  let best=null,bd=1e9;for(const [nm,la,lo] of COUNTY_LL){const dd=Math.hypot((la-lat)*111,(lo-lng)*101.6);if(dd<bd){bd=dd;best=nm;}}return best;}
-function activeCounty(){
-  // 農夫：優先用有座標的田所在縣市；商人/無田：用設定的所在地區
-  if(S.role==="farmer"){const f=getFields().find(x=>x&&x.geo);
-    if(f){const c=countyFromLatLng(f.geo.lat,f.geo.lng);if(c)return c;}}
-  return normCounty(S.region)||"雲林縣";}
-function whichTownship(lat,lng){
-  if(!isFinite(lat)||!isFinite(lng))return null;let best=null,bd=1e9;
-  for(const [nm,la,lo] of TOWNSHIPS){const dd=Math.hypot((la-lat)*111,(lo-lng)*101.6);if(dd<bd){bd=dd;best=nm;}}
-  return {name:best,km:+bd.toFixed(1)};}
-function townshipText(lat,lng){const w=whichTownship(lat,lng);if(!w)return"";
-  return w.km>15?`⚠ 離 ${w.name} 約 ${w.km}km，可能不在雲林近郊，請確認座標`
-    :`📍 這個座標落在 <b>${w.name}</b>${w.km>3?`附近（約 ${w.km}km）`:""}`;}
-function fieldArea(geo){if(!geo)return"";const w=whichTownship(geo.lat,geo.lng);
-  return w?w.name.replace("雲林縣","").replace("彰化縣","彰·").replace("嘉義縣","嘉·"):geo.lat+","+geo.lng;}
+function activeCounty(){return normCounty(S.region)||"台中市";}   // 商人：用設定的所在地區（預設台中市）
 
 /* ══════ 設定 UI ══════ */
-let editingId=null;
 function openSettings(){renderSettings();document.getElementById("modal").classList.add("on");}
 function closeSettings(){document.getElementById("modal").classList.remove("on");}
 function renderSettings(){
@@ -1631,18 +1219,6 @@ function renderSettings(){
       COUNTY_ORDER.filter(c=>FORECAST.counties[c]):COUNTY_ORDER;
     (list.length?list:COUNTY_ORDER).forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=c;if(c===cur)o.selected=true;rs.appendChild(o);});}
   renderCropPick();
-  // 田區
-  const fl=document.getElementById("fieldList");fl.innerHTML="";const fields=getFields();
-  fields.forEach(f=>{const row=document.createElement("div");row.className="listrow";
-    row.innerHTML=`<span class="wn">${f.name}</span><span class="sp"><button class="ed" data-id="${f.id}">編輯</button><button class="rm" data-id="${f.id}">刪除</button></span>
-      <span class="ws">${f.crop}·播種 ${f.plant}·淹水等級 ${f.flood}${f.spray?"·施藥 "+f.spray+"(PHI"+f.phi+")":""}${f.geo?"·📍"+fieldArea(f.geo):""}</span>`;fl.appendChild(row);});
-  fl.querySelectorAll(".rm").forEach(b=>b.onclick=()=>{const f=getFields().find(x=>x.id===b.dataset.id);
-    if(!confirm(`確定要刪除田區「${f?f.name:""}」嗎？\n此動作無法復原。`))return;
-    S.setFields(getFields().filter(x=>x.id!==b.dataset.id));renderSettings();renderHarvest();});
-  fl.querySelectorAll(".ed").forEach(b=>b.onclick=()=>openFieldForm(getFields().find(x=>x.id===b.dataset.id)));
-  // 作物下拉（田區表單 + 採收預判）
-  [document.getElementById("ffCrop"),document.getElementById("fcCrop")].forEach(sel=>{if(sel.options.length)return;
-    cropList().forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=c;sel.appendChild(o);});});
 }
 /* 我的品項：勾選表（勾＝顯示；分蔬菜/水果；省空間、可增可刪） */
 function renderCropPick(){
@@ -1677,47 +1253,14 @@ function renderCropPick(){
     MKTMODE="list";DETAIL=null;renderBoard();   // 改看板清單後回列表
   });
 }
-function openFieldForm(f){editingId=f?f.id:null;const ff=document.getElementById("fieldForm");ff.classList.add("on");
-  document.getElementById("ffName").value=f?f.name:"";document.getElementById("ffCrop").value=f?f.crop:cropList()[0];
-  document.getElementById("ffPlant").value=f?f.plant:todayISO();document.getElementById("ffFlood").value=f?f.flood:4;
-  document.getElementById("ffSpray").value=f?(f.spray||""):"";document.getElementById("ffPhi").value=f?(f.phi||""):"";
-  document.getElementById("ffAreaVal").value=(f&&f.area)?f.area:"";document.getElementById("ffAreaUnit").value=(f&&f.areaUnit)||"ping";
-  document.getElementById("ffUsable").value=(f&&f.usable)?f.usable:"";
-  document.getElementById("ffLat").value=(f&&f.geo)?f.geo.lat:"";document.getElementById("ffLng").value=(f&&f.geo)?f.geo.lng:"";
-  updateFfArea();
-  ff.scrollIntoView({behavior:"smooth",block:"nearest"});}
-function updateFfArea(){const a=document.getElementById("ffArea");if(!a)return;
-  const lat=parseFloat(document.getElementById("ffLat").value),lng=parseFloat(document.getElementById("ffLng").value);
-  a.innerHTML=(isFinite(lat)&&isFinite(lng))?townshipText(lat,lng):"";}
-function saveField(){const name=document.getElementById("ffName").value.trim()||"未命名田";
-  const lat=parseFloat(document.getElementById("ffLat").value),lng=parseFloat(document.getElementById("ffLng").value);
-  const areaVal=+document.getElementById("ffAreaVal").value||0;const areaUnit=document.getElementById("ffAreaUnit").value||"ping";
-  const usable=+document.getElementById("ffUsable").value||0;
-  const rec={id:editingId||("F"+Date.now().toString(36)),name,crop:document.getElementById("ffCrop").value,
-    plant:document.getElementById("ffPlant").value||todayISO(),flood:+document.getElementById("ffFlood").value,
-    spray:document.getElementById("ffSpray").value||"",phi:+document.getElementById("ffPhi").value||0,
-    area:areaVal||"",areaUnit,area_m2:+(areaVal*(AREA_UNIT[areaUnit]||AREA_UNIT.ping).k).toFixed(1),usable:usable||80,
-    geo:(isFinite(lat)&&isFinite(lng))?{lat:+lat.toFixed(5),lng:+lng.toFixed(5)}:null};
-  let fields=getFields();const idx=fields.findIndex(x=>x.id===rec.id);if(idx>=0)fields[idx]=rec;else fields.push(rec);
-  S.setFields(fields);editingId=null;document.getElementById("fieldForm").classList.remove("on");renderSettings();renderHarvest();}
-document.getElementById("ffGeo").addEventListener("click",()=>{
-  const btn=document.getElementById("ffGeo");if(!navigator.geolocation){btn.textContent="此裝置不支援定位";return;}
-  btn.textContent="定位中…";
-  navigator.geolocation.getCurrentPosition(p=>{document.getElementById("ffLat").value=p.coords.latitude.toFixed(5);
-    document.getElementById("ffLng").value=p.coords.longitude.toFixed(5);btn.textContent="📍 已擷取目前位置";updateFfArea();},
-    e=>{btn.textContent="定位失敗（請允許定位權限）";},{enableHighAccuracy:true,timeout:10000});});
-["ffLat","ffLng"].forEach(id=>document.getElementById(id).addEventListener("input",updateFfArea));
-
 document.getElementById("fsRow").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;S.fs=b.dataset.v;applyFont();});
 document.getElementById("mktSelect").addEventListener("change",async e=>{MARKET=e.target.value;S.market=MARKET;
   CUR=null;DETAIL=null;CURVAR=null;PICK=null;MKTMODE="list";SEARCH="";const cs=document.getElementById("cropSearch");if(cs)cs.value="";
   await loadMarket(MARKET);renderBoard();renderSettings();});
 document.getElementById("regionSelect").addEventListener("change",e=>{S.region=e.target.value;
-  renderHarvest();renderBoard();});   // 換地區→天氣建議即時更新（農夫/商人皆用）
+  renderBoard();});   // 換地區→天氣建議/擺攤指數即時更新
 document.getElementById("cropSearch").addEventListener("input",e=>{SEARCH=e.target.value;PICK=null;
   if(MKTMODE==="detail"){MKTMODE="list";DETAIL=null;CURVAR=null;}renderBoard();});
-document.getElementById("fieldAddBtn").addEventListener("click",()=>openFieldForm(null));
-document.getElementById("ffSave").addEventListener("click",saveField);
 document.getElementById("gear").addEventListener("click",openSettings);
 document.getElementById("closeSet").addEventListener("click",closeSettings);
 document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeSettings();});
@@ -1725,7 +1268,6 @@ document.getElementById("closeTy").addEventListener("click",closeTyphoon);
 document.getElementById("typhoonModal").addEventListener("click",e=>{if(e.target.id==="typhoonModal")closeTyphoon();});
 document.getElementById("ciClose").addEventListener("click",closeCropInfo);
 document.getElementById("cropInfo").addEventListener("click",e=>{if(e.target.id==="cropInfo")closeCropInfo();});
-document.getElementById("fcGo").addEventListener("click",renderForecast);
 /* 關於 App：意見回饋 / 常見問題 / 分享 */
 let TOASTT=null;
 function toast(msg){const t=document.getElementById("toast");if(!t)return;t.textContent=msg;t.classList.add("on");
@@ -1745,7 +1287,7 @@ document.getElementById("closeFaq").addEventListener("click",closeFaq);
 document.getElementById("faqModal").addEventListener("click",e=>{if(e.target.id==="faqModal")closeFaq();});
 document.getElementById("aShare").addEventListener("click",async()=>{
   const url=location.origin+location.pathname;
-  const tagline=APP==="merchant"?"全台蔬果批發行情＋跨市場比價，找便宜的市場進貨，免費免帳號。":"全台蔬果行情看板＋颱風搶收預判，免費免帳號。";
+  const tagline="全台蔬果批發行情＋跨市場比價，找便宜的市場進貨，免費免帳號。";
   const data={title:APP_NAME,text:APP_NAME+"："+tagline,url};
   try{if(navigator.share){await navigator.share(data);return;}}catch(e){if(e&&e.name==="AbortError")return;}
   try{await navigator.clipboard.writeText(url);toast("已複製 App 連結，貼給同行吧！");}
@@ -1767,7 +1309,7 @@ function importData(file){const r=new FileReader();
     const data=(o&&o.data&&typeof o.data==="object")?o.data:o;   // 容錯：整包或直接 {vs_*}
     const keys=Object.keys(data).filter(k=>k.indexOf("vs_")===0);
     if(!keys.length){toast("檔案格式不符，找不到可匯入的資料");return;}
-    if(!confirm(`要匯入這個備份嗎？\n將覆蓋目前的設定與田區（共 ${keys.length} 項）。`))return;
+    if(!confirm(`要匯入這個備份嗎？\n將覆蓋目前的設定與關注品項（共 ${keys.length} 項）。`))return;
     keys.forEach(k=>{try{localStorage.setItem(k,String(data[k]));}catch(e){}});
     toast("匯入成功，重新載入中…");setTimeout(()=>location.reload(),700);
   }catch(e){toast("讀取失敗，請確認是"+APP_NAME+"的備份檔");}};
@@ -1775,17 +1317,11 @@ function importData(file){const r=new FileReader();
 document.getElementById("dataExport").addEventListener("click",exportData);
 document.getElementById("dataImport").addEventListener("click",()=>document.getElementById("dataFile").click());
 document.getElementById("dataFile").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(f)importData(f);e.target.value="";});
-document.getElementById("paField").addEventListener("change",renderPlantAdvisor);
-document.getElementById("paDate").addEventListener("change",renderPlantAdvisor);
 
-/* ══════ 分頁 / 角色 ══════ */
-function ensureCropList(id){const sel=document.getElementById(id);if(sel.options.length)return;
-  cropList().forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=c;sel.appendChild(o);});}
+/* ══════ 分頁 ══════ */
 function switchTab(m){
   document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x.dataset.t===m));
-  ["market","harvest","forecast","compare"].forEach(v=>document.getElementById("view-"+v).classList.toggle("on",v===m));
-  if(m==="forecast"){ensureCropList("fcCrop");if(!document.getElementById("fcDate").value)document.getElementById("fcDate").value=todayISO();
-    if(!document.getElementById("paDate").value)document.getElementById("paDate").value=todayISO();renderPlantAdvisor();}
+  ["market","compare"].forEach(v=>document.getElementById("view-"+v).classList.toggle("on",v===m));
   if(m==="compare"){
     if(CUR&&cropCat(CUR))CMPCAT=cropCat(CUR);          // #3 沿用剛在行情看板看的品項
     renderCmpCat();populateCompareCrops();
@@ -1848,20 +1384,12 @@ document.getElementById("cmpCrop").addEventListener("change",()=>{populateCmpVar
 document.getElementById("cmpVar").addEventListener("change",renderCompare);
 
 function applyRole(){
-  const r=S.role;
-  document.querySelectorAll("#roleRow button").forEach(b=>b.classList.toggle("on",b.dataset.r===r));
-  const show={market:true,harvest:r==="farmer",forecast:r==="farmer",compare:r==="merchant"};
+  // 精準進貨：只有「行情看板」與「跨市場比價」兩個分頁
+  const show={market:true,compare:true};
   document.querySelectorAll(".tab").forEach(t=>{t.style.display=show[t.dataset.t]?"":"none";});
-  const rh=document.getElementById("roleHint");
-  if(rh)rh.textContent=(r==="merchant")?"商人：看批發價＋跨市場比價（找便宜進貨），隱藏田區/採收。":"蔬果農：行情＋田區搶收＋採收預判。";
   const active=document.querySelector(".tab.on");
   if(!active||active.style.display==="none")switchTab("market");
 }
-document.getElementById("roleRow").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
-  S.role=b.dataset.r;applyRole();if(MKTMODE==="detail"&&DETAIL)renderDetail(DETAIL,CURVAR);});   // 角色切換即時更新詳細頁買賣價
-/* 首次啟動：身分選擇獨立介面；選完設 vs_onboarded，之後不再出現（設定仍可改角色） */
-document.querySelectorAll("#onboard .oncard").forEach(b=>b.addEventListener("click",()=>{
-  S.role=b.dataset.r;S.onboarded=true;document.getElementById("onboard").classList.remove("on");applyRole();}));
 
 /* ══════ 兩指縮放（放大檢視，放開回彈原狀；純視覺放大、不改版面） ══════ */
 (function(){
@@ -1889,25 +1417,13 @@ document.querySelectorAll("#onboard .oncard").forEach(b=>b.addEventListener("cli
 window.addEventListener("pageshow",()=>{const zc=document.querySelector(".wrap");
   if(zc){zc.style.transform="";zc.style.transition="";zc.style.transformOrigin="";}});
 
-/* 單一身分 App：固定角色、隱藏「角色」切換與另一身分才用得到的設定 */
-function singleRoleUI(){
-  document.documentElement.dataset.app=APP;
-  const hideBlk=el=>{const b=el&&el.closest(".setblk");if(b)b.style.display="none";};
-  const relabelCat=(from,to)=>document.querySelectorAll(".setcat").forEach(c=>{if(c.textContent.trim()===from)c.textContent=to;});
-  hideBlk(document.getElementById("roleRow"));         // 角色切換：兩支 App 都不需要
-  relabelCat("顯示與身分","顯示設定");
-  if(APP==="merchant"){
-    hideBlk(document.getElementById("fieldAddBtn"));    // 我的田區：農夫專屬
-    relabelCat("天氣與田區","天氣");
-    const rs=document.getElementById("regionSelect");
-    if(rs){const h=rs.parentElement.querySelector(".hintline");if(h)h.textContent="選你所在縣市，天氣預報／擺攤指數依此顯示。";}
-  }
-}
+/* 精準進貨（商人版）：標記 app 供樣式使用 */
+function singleRoleUI(){document.documentElement.dataset.app=APP;}
 
 /* ══════ 啟動 ══════ */
 (async function(){
   applyFont();
-  singleRoleUI();   // 單一身分 App：固定角色、隱藏角色切換與不相關設定
+  singleRoleUI();
   const vl=document.getElementById("verLabel");if(vl)vl.textContent=APP_NAME+" "+VERSION;
   const av=document.getElementById("aboutVer");if(av)av.textContent="版本 "+VERSION;
   const {index,live}=await loadIndex();INDEX=index;
@@ -1917,11 +1433,8 @@ function singleRoleUI(){
   await loadMarket(MARKET);
   WEVENTS=await loadEvents();
   renderBoard();   // 預設進看板清單；點一項才進詳細頁（K線+逐日明細）
-  WEATHER=await loadWeather();FORECAST=await loadForecast();YIELDDATA=await loadYield();renderHarvest();renderBoard();
-  // 採收預判作物下拉
-  const fc=document.getElementById("fcCrop");cropList().forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=c;fc.appendChild(o);});
-  document.getElementById("fcDate").value=todayISO();
-  applyRole();   // 依角色顯示/隱藏分頁
+  WEATHER=await loadWeather();FORECAST=await loadForecast();renderBoard();   // 天氣載入後重繪（颱風警戒＋擺攤指數）
+  applyRole();   // 顯示/隱藏分頁
 })();
 /* PWA：註冊 Service Worker（可安裝到主畫面、離線可用）。失敗不影響網頁運作。 */
 if("serviceWorker" in navigator){
