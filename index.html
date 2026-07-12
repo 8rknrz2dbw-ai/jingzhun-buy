@@ -7,7 +7,7 @@
 <link rel="icon" type="image/svg+xml" href="icon.svg" />
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
 <link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#12160E" />
+<meta name="theme-color" content="#191016" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -18,9 +18,11 @@
   :root[data-fs="s"]{ font-size:16px; } :root[data-fs="m"]{ font-size:19px; }
   :root[data-fs="l"]{ font-size:23px; } :root[data-fs="xl"]{ font-size:28px; }
   :root{
-    --bg:#12160E; --panel:#1B2015; --panel2:#232A1B; --line:#313A22;
-    --leaf:#A6C955; --leaf-dim:#6E8F3C; --paper:#EFEAD8; --muted:#9aa27a;
-    --g:#7CC24A; --y:#F2B705; --o:#E8862E; --r:#E4572E; --cool:#6FB0A6;
+    /* 精準進貨（商人版）水果配色：深莓紫底＋葡萄/火龍果紫主色，與精準務農綠色系做區別；
+       漲跌沿用 西瓜紅(貴)/奇異果綠(便宜)/香蕉黃(持平) 水果語意色 */
+    --bg:#191016; --panel:#241726; --panel2:#301F31; --line:#412940;
+    --leaf:#C061E0; --leaf-dim:#8C3FA8; --paper:#F5EAF0; --muted:#AF95AC;
+    --g:#7CC24A; --y:#F2B705; --o:#E8862E; --r:#E4572E; --cool:#5FB4D6;
     --radius:16px;
   }
   *{box-sizing:border-box;}
@@ -37,9 +39,9 @@
 
   header{display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;padding-bottom:0.7rem;border-bottom:1px solid var(--line);}
   header h1{font-size:1.6rem;font-weight:900;margin:0;letter-spacing:3px;line-height:1.1;
-    background:linear-gradient(96deg,#6DB33F 0%,#E4F4A8 28%,#7FD0C4 58%,#6DB33F 100%);background-size:220% 100%;
+    background:linear-gradient(96deg,#FFB03A 0%,#FF6F91 30%,#C061E0 60%,#7CC24A 100%);background-size:220% 100%;
     -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
-    filter:drop-shadow(0 1px 6px rgba(124,194,74,.5));animation:hsheen 7s linear infinite;}
+    filter:drop-shadow(0 1px 6px rgba(192,97,224,.5));animation:hsheen 7s linear infinite;}
   @keyframes hsheen{to{background-position:220% 0;}}
   .gear{background:var(--panel2);border:1px solid var(--line);color:var(--paper);
     width:2.4rem;height:2.4rem;border-radius:50%;font-size:1.2rem;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
@@ -50,7 +52,7 @@
   .hright{display:flex;align-items:center;gap:0.5rem;flex:0 0 auto;}
   .badge{padding:0.15rem 0.55rem;border-radius:999px;font-size:0.7rem;font-weight:700;border:1px solid var(--line);white-space:nowrap;}
   .badge.demo{color:var(--y);border-color:#5a4d13;background:#231d07;}
-  .badge.live{color:var(--leaf);border-color:#2f4a1c;background:#182312;}
+  .badge.live{color:var(--g);border-color:#2f5a2a;background:#152a17;}
 
   .tabs{display:flex;gap:0.4rem;margin:0.9rem 0;}
   .tab{flex:1;background:transparent;border:1px solid var(--line);color:var(--muted);
@@ -118,7 +120,7 @@
   /* 查價線標籤（右側價格、底部日期），用 HTML 疊在圖上避免 SVG 拉伸變形 */
   .axlabel{position:absolute;font-size:0.72rem;font-weight:800;padding:0.05rem 0.35rem;border-radius:6px;
     pointer-events:none;white-space:nowrap;z-index:2;display:none;}
-  .axlabel.px{background:var(--paper);color:#12160E;right:2px;transform:translateY(-50%);}
+  .axlabel.px{background:var(--paper);color:#191016;right:2px;transform:translateY(-50%);}
   .axlabel.dt{background:var(--panel2);color:var(--paper);border:1px solid var(--line);bottom:0;transform:translateX(-50%);}
   /* Y 軸最高/最低價刻度（隨公斤/台斤切換），常顯 */
   .axlabel.axmax,.axlabel.axmin{display:block;background:rgba(18,22,14,.7);color:var(--muted);font-weight:700;font-size:0.66rem;right:2px;}
@@ -264,7 +266,7 @@
   @keyframes rflash{0%,100%{background:linear-gradient(90deg,rgba(59,125,216,.20),rgba(59,125,216,.05) 60%,transparent);border-color:#26506e;}
     50%{background:linear-gradient(90deg,rgba(59,125,216,.42),rgba(59,125,216,.12) 55%,transparent);border-color:#3f79c9;}}
   .alert.rain .ticon{filter:drop-shadow(0 0 7px rgba(59,125,216,.6));}
-  .alert.calm{border-color:#2f4a1c;background:linear-gradient(90deg,rgba(124,194,74,.14),transparent 60%);}
+  .alert.calm{border-color:#3a5a2a;background:linear-gradient(90deg,rgba(124,194,74,.13),transparent 60%);}
   .alert.track{border-color:#5a4d13;background:linear-gradient(90deg,rgba(242,183,5,.14),transparent 60%);}
   .alert.track .ticon{filter:drop-shadow(0 0 6px rgba(242,183,5,.5));}
   .alert.track .big b{color:var(--y);}
@@ -334,15 +336,17 @@
   .fsrow button.on{background:var(--leaf);color:var(--bg);border-color:var(--leaf);}
   select.mkt{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--paper);padding:0.65rem 0.7rem;border-radius:12px;font-size:1rem;}
   .hintline{font-size:0.74rem;color:var(--muted);margin-top:0.5rem;line-height:1.6;}
-  .ver{color:#5a6146;font-size:0.7rem;text-align:center;margin-top:1.5rem;letter-spacing:.5px;}
+  .ver{color:#6a5a68;font-size:0.7rem;text-align:center;margin-top:1.5rem;letter-spacing:.5px;}
   /* 關於 App（上架用） */
   .foldh{width:100%;display:flex;align-items:center;justify-content:space-between;background:var(--panel2);border:1px solid var(--line);
     color:var(--paper);border-radius:12px;padding:0.75rem 0.9rem;font-size:0.95rem;font-weight:700;}
   .foldh:active{background:var(--panel);}
   .foldh .foldi{color:var(--muted);transition:transform .2s;} .foldh[aria-expanded="true"] .foldi{transform:rotate(90deg);}
   .foldbody{margin-top:0.6rem;}
-  .aboutcard{background:linear-gradient(135deg,#1f2716,#181d12);border:1px solid var(--line);border-radius:16px;padding:1rem;text-align:center;margin-bottom:0.6rem;}
-  .aboutcard .alogo{font-size:1.5rem;font-weight:900;color:var(--leaf);letter-spacing:2px;}
+  .aboutcard{background:linear-gradient(135deg,#2a1826,#1d1320);border:1px solid var(--line);border-radius:16px;padding:1rem;text-align:center;margin-bottom:0.6rem;}
+  .aboutcard .alogo{font-size:1.5rem;font-weight:900;letter-spacing:2px;
+    background:linear-gradient(96deg,#FFB03A 0%,#FF6F91 30%,#C061E0 60%,#7CC24A 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
   .aboutcard .atag{font-size:0.78rem;color:var(--muted);margin-top:0.2rem;line-height:1.5;}
   .aver{display:table;margin:0.8rem auto 0.2rem;font-size:0.72rem;color:var(--muted);background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:0.2rem 0.8rem;}
   .about{display:flex;flex-direction:column;gap:0.4rem;}
@@ -656,7 +660,7 @@ function cropSvg(crop,variety){return CROP_SVG[variety]||CROP_SVG[crop]||"";}
 /* 水果品項/品種多、插圖難精準 → 改用放大鏡，點了直接 Google 圖片搜尋看實際照片（零版權，不自存圖） */
 function cropSearchURL(crop,variety){const q=(variety&&variety!==crop)?`${variety} ${crop}`:crop;
   return `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(q)}`;}
-const SEARCH_SVG=`<svg viewBox="0 0 96 96"><circle cx="42" cy="42" r="23" fill="rgba(111,184,74,.12)" stroke="#6fb84a" stroke-width="7"/><line x1="59" y1="59" x2="80" y2="80" stroke="#6fb84a" stroke-width="8" stroke-linecap="round"/></svg>`;
+const SEARCH_SVG=`<svg viewBox="0 0 96 96"><circle cx="42" cy="42" r="23" fill="rgba(192,97,224,.14)" stroke="#C061E0" stroke-width="7"/><line x1="59" y1="59" x2="80" y2="80" stroke="#C061E0" stroke-width="8" stroke-linecap="round"/></svg>`;
 /* 蔬菜插圖已全面取消 → 蔬菜用 emoji、水果用放大鏡；點圖示都開「說明」彈窗(內含 Google 查圖) */
 function cropIconHTML(crop,variety){return (cropCat(crop)==="水果")?SEARCH_SVG:cropIcon(crop);}
 const CROP_TIP={
@@ -964,7 +968,7 @@ function drawChart(es){const d=tfSeries(es);QDATA=d;QGEO=null;if(d.length<2)retu
   QANNO=annotate(d);let marks="";
   QANNO.forEach(a=>{const X=x(a.i),yv=y(d[a.i][1].avg),cc=a.pct>=0?"#E4572E":"#5FB85A";
     marks+=`<line x1="${X.toFixed(1)}" y1="${pT}" x2="${X.toFixed(1)}" y2="${(H-pB).toFixed(1)}" stroke="${cc}" stroke-width="1" opacity="0.4" stroke-dasharray="2 3"/>`;
-    marks+=`<circle cx="${X.toFixed(1)}" cy="${yv.toFixed(1)}" r="3.4" fill="${cc}" stroke="#12160E" stroke-width="1.1"/>`;});
+    marks+=`<circle cx="${X.toFixed(1)}" cy="${yv.toFixed(1)}" r="3.4" fill="${cc}" stroke="#191016" stroke-width="1.1"/>`;});
   const defs=`<defs><linearGradient id="qgrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity="0.30"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient></defs>`;
   return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="價格走勢，可滑動查價">${defs}${ribbon}${area}${poly}${marks}<g id="qcross"></g></svg>`;}
 /* 查價線：垂直＝日期(底部標)、水平＝均價(右側標) + 詳細列 */
@@ -1064,12 +1068,12 @@ function drawTyphoonTrack(track){
   let circles="",dots="",labels="";
   km.forEach((k,i)=>{const cx=X(k),cy=Y(k),last=i===0;
     if(pts[i].r15)circles+=`<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${(pts[i].r15*scale).toFixed(1)}" fill="rgba(228,87,46,.08)" stroke="rgba(228,87,46,.34)" stroke-width="1"/>`;
-    dots+=`<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${last?5:3}" fill="${last?'#E4572E':'#F2B705'}" stroke="#12160E" stroke-width="1"/>`;
+    dots+=`<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${last?5:3}" fill="${last?'#E4572E':'#F2B705'}" stroke="#191016" stroke-width="1"/>`;
     // 逐時日期時間標籤（首/末/隔點顯示，避免太擠）
     if((last||i===km.length-1||i%2===0)&&pts[i].t){const tx=fmtTrackTime(pts[i].t);if(tx)
       labels+=`<text x="${(cx+6).toFixed(1)}" y="${(cy-6).toFixed(1)}" fill="${last?'#F6C6B4':'#c9cdb0'}" font-size="9" font-weight="700">${tx}</text>`;}});
   const rx=X(rk),ry=Y(rk);
-  const ref=`<circle cx="${rx.toFixed(1)}" cy="${ry.toFixed(1)}" r="5.5" fill="#7CC24A" stroke="#12160E" stroke-width="1.5"/>`+
+  const ref=`<circle cx="${rx.toFixed(1)}" cy="${ry.toFixed(1)}" r="5.5" fill="#7CC24A" stroke="#191016" stroke-width="1.5"/>`+
     `<text x="${(rx+9).toFixed(1)}" y="${(ry+4).toFixed(1)}" fill="#CDE8A0" font-size="12" font-weight="800">${REFNAME}</text>`;
   return `<svg viewBox="0 0 ${W} ${H}" class="tysvg" role="img" aria-label="颱風路徑圖">
     <rect x="0" y="0" width="${W}" height="${H}" fill="#0e1a24"/>${landSVG}
