@@ -1,6 +1,6 @@
-name: 更新天氣與搶收預判資料
+name: 更新天氣與颱風資料
 
-# 只跑「天氣/颱風/搶收決策」——輕量、每 30 分鐘一次（颱風期間可 workflow_dispatch 加密集）。
+# 只跑「天氣/颱風」——輕量、每 30 分鐘一次（颱風期間可 workflow_dispatch 加密集）。
 # 批發行情因需抓 2 年歷史、較慢，已拆到 update-prices.yml 每日少量觸發，避免拖慢天氣更新。
 on:
   schedule:
@@ -35,36 +35,15 @@ jobs:
           CWA_API_KEY: ${{ secrets.CWA_API_KEY }}
         run: python3 scripts/fetch_cwa.py
 
-      - name: 計算搶收決策
-        run: |
-          FIELDS=data/fields.json
-          [ -f "$FIELDS" ] || FIELDS=data/fields.example.json
-          python3 scripts/build_advisory.py --fields "$FIELDS" --typhoon typhoon_status.json
-
-      - name: 還原通知去重狀態
-        uses: actions/cache@v4
-        with:
-          path: notify_state.json
-          key: notify-state-${{ github.run_id }}
-          restore-keys: |
-            notify-state-
-
-      - name: 急迫搶收通知（LINE / webhook；未設定則自動略過）
-        env:
-          LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
-          LINE_TO: ${{ secrets.LINE_TO }}
-          NOTIFY_WEBHOOK_URL: ${{ secrets.NOTIFY_WEBHOOK_URL }}
-        run: python3 scripts/notify.py --advisory harvest_advisory.json --state notify_state.json
-
       - name: 提交更新的 JSON（供前端 index.html 讀取）
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add typhoon_status.json harvest_advisory.json cwa_debug.json weather_events.json weather_forecast.json
+          git add typhoon_status.json cwa_debug.json weather_events.json weather_forecast.json
           if git diff --staged --quiet; then
             echo "資料無變更，略過提交。"
           else
-            git commit -m "chore(data): 更新天氣與搶收預判 [skip ci]"
+            git commit -m "chore(data): 更新天氣與颱風 [skip ci]"
             # push 前 rebase 重試，避免與其他部署/排程競爭 main 造成非快進被拒
             ok=0
             for i in 1 2 3 4 5; do

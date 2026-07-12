@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-fetch_prices.py  ——  抓農業部「農產品批發市場交易行情」公開資料 → veg_prices.json
+fetch_prices.py  ——  抓農業部「農產品批發市場交易行情」公開資料 → prices_index.json + prices/NN.json
 
-免金鑰的公開 API。輸出 schema 與前端 index.html / build_advisory.py 既有約定一致：
+免金鑰的公開 API。輸出 schema 與前端 index.html 既有約定一致：
   { updated, markets:[...], crop_map:{展示名:批發名}, data:{市場:{批發名:{ISO日:{avg,high,mid,low,qty}}}} }
 
 ⚠ 本開發沙盒的網路政策擋 data.moa.gov.tw，無法本機實測；於 GitHub Actions（有外網）執行，
@@ -181,8 +181,7 @@ def fetch_market_all(market, start, end):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--days", type=int, default=730)   # 近 2 年，讓採收預判/走勢更穩
-    ap.add_argument("--out", default="veg_prices.json")
+    ap.add_argument("--days", type=int, default=730)   # 近 2 年，讓走勢更穩
     ap.add_argument("--probe", default="", help="探測模式：指定市場短名（如 台北一），dump 原始欄位後結束")
     args = ap.parse_args()
 
