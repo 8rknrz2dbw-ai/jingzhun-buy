@@ -35,7 +35,7 @@
   :focus-visible{outline:3px solid var(--leaf);outline-offset:2px;}
   @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
   .wrap{max-width:760px;margin:0 auto;
-    padding:calc(0.9rem + env(safe-area-inset-top)) calc(0.8rem + env(safe-area-inset-right)) 3rem calc(0.8rem + env(safe-area-inset-left));}
+    padding:0 calc(0.8rem + env(safe-area-inset-right)) 3rem calc(0.8rem + env(safe-area-inset-left));}
 
   header{display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;padding-bottom:0.7rem;border-bottom:1px solid var(--line);}
   header h1{font-size:1.6rem;font-weight:900;margin:0;letter-spacing:3px;line-height:1.1;
@@ -47,7 +47,11 @@
     width:2.4rem;height:2.4rem;border-radius:50%;font-size:1.2rem;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
   .hgroup{margin-left:auto;display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;justify-content:flex-end;}
   .upd{font-size:0.72rem;color:var(--muted);white-space:nowrap;}
-  header.slim{gap:0.5rem;padding-top:0.1rem;justify-content:flex-start;}
+  /* 頂列（實際資料/更新/⚙️）置頂：固定於最上、背景延伸進瀏海(安全區)，內容往下滑動不會蓋過它 */
+  header.slim{position:sticky;top:0;z-index:30;background:var(--bg);flex-wrap:nowrap;justify-content:flex-start;
+    margin:0 calc(-0.8rem - env(safe-area-inset-right)) 0 calc(-0.8rem - env(safe-area-inset-left));
+    padding:calc(env(safe-area-inset-top) + 0.5rem) calc(0.8rem + env(safe-area-inset-right)) 0.55rem calc(0.8rem + env(safe-area-inset-left));
+    gap:0.5rem;}
   header.slim .gear{margin-left:auto;}
   .hright{display:flex;align-items:center;gap:0.5rem;flex:0 0 auto;}
   .badge{padding:0.15rem 0.55rem;border-radius:999px;font-size:0.7rem;font-weight:700;border:1px solid var(--line);white-space:nowrap;}
@@ -147,12 +151,19 @@
   .tag.season::before{display:none;}   /* 非當季為描述性標籤、字較長，省去圓點以單行呈現 */
 
   /* === 行情看板 v1.2：大卡列表 + 點進去的詳細頁 === */
-  .boardtop{position:sticky;top:0;z-index:6;background:var(--bg);padding:0.2rem 0 0.6rem;
+  .boardtop{position:sticky;top:var(--topbar-h,0);z-index:6;background:var(--bg);padding:0.2rem 0 0.6rem;
     display:flex;flex-direction:column;gap:0.5rem;margin-bottom:0.7rem;}
   .boardtop .catbar{margin:0;}
   .mktrow{display:flex;align-items:center;gap:0.6rem;}
-  .mktlabel{font-size:0.95rem;color:var(--muted);font-weight:600;white-space:nowrap;}
+  .mktlabel{font-size:0.95rem;color:var(--muted);font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:0.35rem;}
   .mktlabel b{color:var(--leaf);font-weight:900;}
+  .mktselwrap{display:inline-flex;}
+  .mktsel{appearance:none;-webkit-appearance:none;background:var(--panel2);border:1px solid var(--line);border-radius:9px;
+    color:var(--leaf);font-weight:900;font-size:0.95rem;font-family:inherit;line-height:1.1;
+    padding:0.28rem 1.55rem 0.28rem 0.65rem;max-width:8.5rem;
+    background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path d="M2 4.2l4 4 4-4" fill="none" stroke="%23FF9A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+    background-repeat:no-repeat;background-position:right 0.55rem center;}
+  .mktsel:focus{outline:none;border-color:var(--leaf-dim);}
   .unitbar{margin-left:auto;flex:0 0 auto;}
   .searchrow{display:flex;position:relative;}
   .cropsearch{width:100%;background:var(--panel);border:1px solid var(--line);color:var(--paper);
@@ -194,20 +205,11 @@
   .mc-comb{font-size:0.6rem;font-weight:800;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0.02rem 0.35rem;white-space:nowrap;}
   .mc-none{color:var(--muted);font-size:0.9rem;line-height:1.2;}
   .mcard .tag{white-space:nowrap;}
-  /* 品種下拉：只列各品種；左＝說明、右＝K線 */
-  .vdrop{margin:-0.3rem 0 0.7rem;padding:0.35rem;background:var(--panel2);border:1px solid var(--line);border-radius:0 0 14px 14px;
-    display:flex;flex-direction:column;gap:0.3rem;}
-  .vopt{display:flex;align-items:stretch;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
-  .vopt-left{flex:1;min-width:0;text-align:left;background:transparent;border:0;color:var(--paper);
-    padding:0.8rem 0.9rem;font-weight:900;font-size:1.3rem;display:flex;align-items:center;gap:0.6rem;}
-  .vopt-left:active{background:var(--panel2);}
-  .vopt-left .mc-info{margin-left:auto;font-weight:700;font-size:0.78rem;}
-  .vopt-right{flex:0 0 auto;background:transparent;border:0;border-left:1px solid var(--line);color:inherit;
-    padding:0.8rem 0.9rem;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:0.1rem;}
-  .vopt-right:active{background:var(--panel2);}
-  .vopt-right.nolink{pointer-events:none;}
-  .vopt .vname{min-width:0;}
-  .vopt .vprice{font-size:1.05rem;color:var(--leaf);font-weight:900;white-space:nowrap;}
+  /* 展開多品種：每個品種各自一張卡（同看板卡片樣式）；左側綠色直條表示同屬一個母作物群組 */
+  .vgroup{margin:-0.1rem 0 0.7rem;padding-left:0.7rem;border-left:3px solid var(--leaf-dim);
+    display:flex;flex-direction:column;gap:0.5rem;}
+  .vgroup .mcard{margin-bottom:0;}
+  .mc-child .mc-nm{font-size:1.2rem;letter-spacing:0.5px;}
   /* 天氣分頁 */
   .wx-h{font-size:1.2rem;font-weight:900;margin:0.3rem 0 0.9rem;}
   .wx-foot{font-size:0.72rem;color:var(--muted);margin-top:0.9rem;line-height:1.6;}
@@ -555,7 +557,7 @@
 
 <script>
 /* ══════ 基礎 ══════ */
-const VERSION="v1.4.0";
+const VERSION="v1.5.0";
 /* 精準進貨（商人版）：批發行情＋跨市場比價找便宜進貨。此 repo 已為商人版專用，
    農夫版（精準務農）田區搶收/採收預判相關程式與資料已移除。 */
 const APP="merchant";
@@ -825,7 +827,12 @@ function renderBoard(){
   renderCatbar();
   const searching=!!SEARCH.trim();
   const cb=document.getElementById("catbar");if(cb&&searching)cb.style.display="none";  // 搜尋時隱藏蔬果分類
-  const ml=document.getElementById("mktLabel");if(ml)ml.innerHTML=`<b>${MARKET}</b> · 批發`;
+  const ml=document.getElementById("mktLabel");
+  if(ml){const names=marketNames();
+    ml.innerHTML=`<span class="mktselwrap"><select id="mktSelBoard" class="mktsel" aria-label="選擇果菜市場">`+
+      names.map(n=>`<option value="${n}"${n===MARKET?" selected":""}>${n}</option>`).join("")+
+      `</select></span> · 批發`;
+    const sb=ml.querySelector("#mktSelBoard");if(sb)sb.onchange=e=>switchMarket(e.target.value);}
   const cs=document.getElementById("cropSearch");if(cs)cs.placeholder=`🔍 搜尋此市場 ${availableCrops().length} 種品項…`;
   const ub=document.getElementById("unitbar");if(ub){ub.innerHTML=unitToggleHTML("ubSeg");bindUnitToggle(ub);}
   const el=document.getElementById("board");el.innerHTML="";
@@ -865,16 +872,34 @@ function renderBoard(){
       if(hasVar){PICK=(PICK===disp?null:disp);renderBoard();}else openCropInfo(disp,null);};
     card.querySelector(".mc-right").onclick=rightAction||(()=>openCropInfo(disp,null));
     el.appendChild(card);
-    // 品種下拉：只列各品種（無「全部綜合」）；左＝說明、右＝K線
-    if(expanded){const dd=document.createElement("div");dd.className="vdrop";
-      dd.innerHTML=vlabels.map(l=>{const s=variantSeries(disp,l);const ks=Object.keys(s).sort();const last=ks.length?s[ks[ks.length-1]]:null;
-        return `<div class="vopt"><button class="vopt-left" type="button" data-v="${l}"><span class="vname">${l}</span><span class="mc-info">ⓘ 說明</span></button>`+
-          `<button class="vopt-right${last?"":" nolink"}" type="button" data-v="${l}">${last?`<span class="vprice mono">${pxU(last.avg).toFixed(1)} ${unitU()}</span>`:`<span class="mc-none">無成交</span>`}</button></div>`;}).join("");
-      dd.querySelectorAll(".vopt-left").forEach(o=>o.onclick=()=>openCropInfo(disp,o.dataset.v));
-      dd.querySelectorAll(".vopt-right").forEach(o=>{const s=variantSeries(disp,o.dataset.v);const has=Object.keys(s).length;
-        o.onclick=has?()=>openDetail(disp,o.dataset.v):()=>openCropInfo(disp,o.dataset.v);});
-      el.appendChild(dd);}
+    // 展開：各品種各自一張卡（相關同群、但彼此分開）
+    if(expanded){const grp=document.createElement("div");grp.className="vgroup";
+      vlabels.forEach(l=>grp.appendChild(buildVarietyCard(disp,l)));
+      el.appendChild(grp);}
   });
+}
+/* 品種卡：展開多品種作物時，每個品種各自一張卡（左名稱→說明、右價格→該品種 K線） */
+function buildVarietyCard(disp,variety){
+  const pv=priceView(disp,variety);
+  const card=document.createElement("div");card.className="mcard mc-child";
+  let leftInner,rightInner,rightAction;
+  if(!pv){
+    leftInner=`<div class="mc-nm">${variety}</div><div class="mc-sub"><span class="mc-info">ⓘ 說明</span></div>`;
+    rightInner=`<span class="mc-none">近期<br>無成交</span>`;rightAction=null;
+  }else{
+    const es=pv.es;const prev=es.length>1?es[es.length-2][1].avg:pv.avg;const chg=pv.avg-prev;const chgP=prev?chg/prev*100:0;
+    const dcls=chg>0.01?"up":chg<-0.01?"dn":"mid";const arr=chg>0.01?"▲":chg<-0.01?"▼":"＝";
+    const tag=pv.stale>14?`<span class="tag season">非當季·最後成交 ${pv.date.slice(5)}</span>`:`<span class="tag ${pv.cls}">${pv.say}</span>`;
+    leftInner=`<div class="mc-nm">${variety}</div><div class="mc-sub">${tag}<span class="mc-info">ⓘ 說明</span></div>`;
+    rightInner=`<span class="mc-px"><span class="mc-v mono">${pxU(pv.avg).toFixed(1)}</span><span class="mc-u">${unitU()}</span></span>
+      <span class="mc-meta"><span class="mc-chg ${dcls} mono">${arr}${chgP>=0?"+":""}${chgP.toFixed(1)}%</span></span>`;
+    rightAction=()=>openDetail(disp,variety);
+  }
+  card.innerHTML=`<button class="mc-left" type="button">${leftInner}</button>
+    <button class="mc-right${rightAction?"":" nolink"}" type="button">${rightInner}</button>`;
+  card.querySelector(".mc-left").onclick=()=>openCropInfo(disp,variety);
+  card.querySelector(".mc-right").onclick=rightAction||(()=>openCropInfo(disp,variety));
+  return card;
 }
 /* 進貨成本註記：批發拍賣是「一個成交價」，商人進貨成本＝拍賣均價＋承銷手續費 */
 const FEE_MERCHANT=0.06;
@@ -1291,9 +1316,17 @@ function renderCropPick(){
   });
 }
 document.getElementById("fsRow").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;S.fs=b.dataset.v;applyFont();});
-document.getElementById("mktSelect").addEventListener("change",async e=>{MARKET=e.target.value;S.market=MARKET;
-  CUR=null;DETAIL=null;CURVAR=null;PICK=null;MKTMODE="list";SEARCH="";const cs=document.getElementById("cropSearch");if(cs)cs.value="";
-  await loadMarket(MARKET);renderBoard();renderSettings();});
+/* 切換果菜市場（看板下拉與設定下拉共用；兩邊即時同步）。 */
+async function switchMarket(mk){
+  if(!mk)return;
+  MARKET=mk;S.market=mk;
+  CUR=null;DETAIL=null;CURVAR=null;PICK=null;MKTMODE="list";SEARCH="";
+  const cs=document.getElementById("cropSearch");if(cs)cs.value="";
+  const sg=document.getElementById("cropSug");if(sg){sg.style.display="none";sg.innerHTML="";}
+  await loadMarket(mk);
+  renderBoard();renderSettings();   // renderBoard 會重建看板下拉、renderSettings 重建設定下拉 → 兩邊同步
+}
+document.getElementById("mktSelect").addEventListener("change",e=>switchMarket(e.target.value));
 document.getElementById("regionSelect").addEventListener("change",e=>{S.region=e.target.value;
   renderBoard();renderWeather();});   // 換地區→看板＋天氣分頁(擺攤指數/颱風侵襲率/逐時)同步更新
 /* 搜尋下拉建議：輸入一字就提示；以「開頭符合」優先（第一個字為主），其次為包含 */
@@ -1522,6 +1555,12 @@ window.addEventListener("pageshow",()=>{const zc=document.querySelector(".wrap")
 /* 精準進貨（商人版）：標記 app 供樣式使用 */
 function singleRoleUI(){document.documentElement.dataset.app=APP;}
 
+/* 量測置頂頂列高度 → 設 --topbar-h，讓看板分類/市場列黏在頂列正下方（含瀏海安全區） */
+function syncTopbar(){const h=document.querySelector("header.slim");
+  if(h)document.documentElement.style.setProperty("--topbar-h",h.offsetHeight+"px");}
+window.addEventListener("resize",syncTopbar);
+window.addEventListener("orientationchange",()=>setTimeout(syncTopbar,200));
+
 /* ══════ 啟動 ══════ */
 (async function(){
   applyFont();
@@ -1537,6 +1576,7 @@ function singleRoleUI(){document.documentElement.dataset.app=APP;}
   renderBoard();   // 預設進看板清單；點一項才進詳細頁（K線+逐日明細）
   WEATHER=await loadWeather();FORECAST=await loadForecast();
   applyRole();   // 顯示/隱藏分頁
+  syncTopbar();  // 頂列高度 → 看板列黏在其下方
 })();
 /* PWA：註冊 Service Worker（可安裝到主畫面、離線可用）。失敗不影響網頁運作。 */
 if("serviceWorker" in navigator){
