@@ -3,7 +3,7 @@
    - HTML / JSON 資料：network-first（連得上就拿最新，離線退回上次快取；HTML 再退回 index.html 殼）。
    - 圖示等靜態資源：cache-first。
    改版時把 CACHE 版本號 +1 即可讓舊快取失效（activate 會清掉非當前版本）。 */
-const CACHE = "jingzhun-buy-v4";
+const CACHE = "jingzhun-buy-v5";
 const SHELL = ["./", "./index.html", "./privacy.html", "./terms.html", "./manifest.json",
                "./icon-192.png", "./icon-512.png", "./icon-maskable-512.png", "./apple-touch-icon.png"];
 
@@ -34,19 +34,16 @@ self.addEventListener("fetch", (e) => {
   const isJSON = url.pathname.endsWith(".json");
 
   if (isHTML) {
-    // 頁面殼：stale-while-revalidate —— 有快取就「立即」回快取（回到 App 不再白畫面），
-    // 同時背景抓最新更新快取；沒快取才等網路，網路也失敗才退回 index.html 殼。
+    // 頁面殼：network-first —— 連得上一律拿最新（改版立即可見），
+    // 更新快取；離線／網路失敗才退回上次快取殼，避免白畫面。
     e.respondWith(
-      caches.match(req).then((cached) => {
-        const network = fetch(req)
-          .then((res) => {
-            const copy = res.clone();
-            caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {});
-            return res;
-          })
-          .catch(() => cached || caches.match("./index.html"));
-        return cached || network;
-      })
+      fetch(req)
+        .then((res) => {
+          const copy = res.clone();
+          caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {});
+          return res;
+        })
+        .catch(() => caches.match(req).then((c) => c || caches.match("./index.html")))
     );
   } else if (isJSON) {
     // 資料：network-first（要最新行情/天氣），離線退回上次快取
